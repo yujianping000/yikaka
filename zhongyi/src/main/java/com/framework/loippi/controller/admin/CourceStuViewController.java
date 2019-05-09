@@ -970,6 +970,8 @@ public class CourceStuViewController extends GenericController {
 			parent.setPassword(DigestUtils.md5Hex("123456"));	
 			parentService.save(parent);
 			
+			System.out.println(parent.getPassword());
+			
 			Long uid = parentService.getById(parent.getAccount());
 			//System.out.println(row.getCell(0).getStringCellValue());
 			
