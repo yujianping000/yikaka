@@ -1,0 +1,773 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.OrderDao">
+
+	<resultMap id="OrderResultMap" type="com.framework.loippi.entity.Order">
+		<id property="id" column="id" />
+		<result property="bn" column="bn" />
+		<result property="targetId" column="target_id" />
+		<result property="type" column="type" />
+		<result property="unickname" column="unickname" />
+		<result property="uid" column="uid" />
+		<result property="stuId" column="stu_id" />
+		<result property="stuName" column="stu_name" />
+		<result property="status" column="status" />
+		<result property="cancelReason" column="cancel_reason" />
+		<result property="payType" column="pay_type" />
+		<result property="payment" column="payment" />
+		<result property="totalFee" column="total_fee" />
+		<result property="payedFee" column="payed_fee" />
+		<result property="sellerRate" column="seller_rate" />
+		<result property="createdTime" column="created_time" />
+		<result property="payTime" column="pay_time" />
+		<result property="consignTime" column="consign_time" />
+		<result property="endTime" column="end_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="timeOutTime" column="time_out_time" />
+		<result property="cancelTime" column="cancel_time" />
+		<result property="buyerRate" column="buyer_rate" />
+		<result property="rateStatus" column="rate_status" />
+		<result property="disabled" column="disabled" />
+		<result property="cancelStatus" column="cancel_status" />
+		<result property="uuid" column="uuid" />
+		<result property="courseId" column="course_id" />
+		<result property="courseName" column="course_name" />
+		<result property="orgId" column="org_id" />
+		<result property="orgName" column="org_name" />
+		<result property="stuAvatar" column="stu_avatar" />
+		<result property="stuSex" column="stu_sex" />
+		<result property="stuAge" column="stu_age" />
+		<result property="phone" column="phone" />
+		<result property="image" column="image" />
+		<result property="remark" column="remark" />
+		<result property="targetName" column="target_name" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="classtimes" column="classtimes" />
+		<result property="activityNumber" column="activity_number" />
+		<result property="activityPrize" column="activity_prize" />
+		<result property="term" column="term" />
+		<result property="serialNumber" column="serial_number" />
+		<result property="stuBirthday" column="stu_birthday" />
+		<result property="stuHobby" column="stu_hobby" />
+		<result property="rateContent" column="rate_content" />
+		<result property="rateScore" column="rate_score" />
+		<result property="rateTime" column="rate_time" />
+		<result property="orderType" column="order_type" />
+		<result property="tallyType" column="tally_type" />
+		<result property="procedureRate" column="procedure_rate" />
+		<result property="procedureCost" column="procedure_cost" />
+		<result property="openclass" column="openclass" />
+		<result property="continueclass" column="continueclass" />
+		<result property="restclass" column="restclass" />
+		<result property="restType" column="rest_type" />
+	</resultMap>
+
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		id ,bn ,target_id ,type ,unickname ,uid ,stu_id ,stu_name
+		,status ,cancel_reason ,pay_type ,payment ,total_fee
+		,payed_fee ,seller_rate ,created_time ,pay_time
+		,consign_time ,end_time ,update_time ,time_out_time
+		,cancel_time ,buyer_rate ,rate_status ,disabled
+		,cancel_status ,uuid ,course_id ,course_name ,org_id
+		,org_name ,stu_avatar ,stu_sex ,stu_age ,phone ,image
+		,remark ,target_name ,teacher_id ,classtimes ,activity_number ,activity_prize
+		,term
+		,serial_number ,stu_birthday ,stu_hobby ,rate_content ,rate_score ,rate_time
+		,order_type,tally_type,procedure_cost,procedure_rate
+		,openclass,continueclass,restclass,rest_type
+	</sql>
+
+	<sql id="base_value_column">
+		#{id},#{bn},#{targetId},#{type},#{unickname},#{uid},#{stuId}
+		,#{stuName},#{status},#{cancelReason},#{payType},#{payment}
+		,#{totalFee},#{payedFee},#{sellerRate},#{createdTime},#{payTime}
+		,#{consignTime},#{endTime},#{updateTime},#{timeOutTime}
+		,#{cancelTime},#{buyerRate},#{rateStatus},#{disabled}
+		,#{cancelStatus},#{uuid},#{courseId},#{courseName}
+		,#{orgId},#{orgName},#{stuAvatar},#{stuSex},#{stuAge}
+		,#{phone},#{image},#{remark},#{targetName},#{teacherId}
+		,#{classtimes},#{activityNumber},#{activityPrize},#{term}
+		,#{serialNumber},#{stuBirthday},#{stuHobby},#{rateContent},#{rateScore},#{rateTime}
+		,#{orderType},#{tallyType},#{procedureCost},#{procedureRate}
+		,#{openclass},#{continueclass},#{restclass},#{restType}
+	</sql>
+
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+
+
+		<if test="bn != null ">
+			AND bn = #{bn,jdbcType=VARCHAR}
+		</if>
+
+		<if test="targetId != null ">
+			AND target_id = #{targetId,jdbcType=BIGINT}
+		</if>
+
+
+		<if test="type != null ">
+			AND type = #{type,jdbcType=INTEGER}
+		</if>
+
+
+		<if test="unickname != null ">
+			AND unickname = #{unickname,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="uid != null ">
+			AND uid = #{uid,jdbcType=BIGINT}
+		</if>
+
+
+		<if test="stuId != null ">
+			AND stu_id = #{stuId,jdbcType=BIGINT}
+		</if>
+
+
+		<if test="stuName != null ">
+			AND stu_name = #{stuName,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="status != null ">
+			AND status = #{status,jdbcType=INTEGER}
+		</if>
+
+
+		<if test="cancelReason != null ">
+			AND cancel_reason = #{cancelReason,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="payType != null ">
+			AND pay_type = #{payType,jdbcType=INTEGER}
+		</if>
+
+
+		<if test="payment != null ">
+			AND payment = #{payment,jdbcType=DECIMAL}
+		</if>
+
+
+		<if test="totalFee != null ">
+			AND total_fee = #{totalFee,jdbcType=DECIMAL}
+		</if>
+
+
+		<if test="payedFee != null ">
+			AND payed_fee = #{payedFee,jdbcType=DECIMAL}
+		</if>
+
+
+		<if test="sellerRate != null ">
+			AND seller_rate = #{sellerRate,jdbcType=INTEGER}
+		</if>
+
+
+		<if test="createdTime != null ">
+			AND created_time = #{createdTime,jdbcType=TIMESTAMP}
+		</if>
+
+
+		<if test="payTime != null ">
+			AND pay_time = #{payTime,jdbcType=TIMESTAMP}
+		</if>
+
+
+		<if test="consignTime != null ">
+			AND consign_time = #{consignTime,jdbcType=TIMESTAMP}
+		</if>
+
+
+		<if test="endTime != null ">
+			AND end_time = #{endTime,jdbcType=TIMESTAMP}
+		</if>
+
+
+		<if test="updateTime != null ">
+			AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+		</if>
+
+
+		<if test="timeOutTime != null ">
+			AND time_out_time = #{timeOutTime,jdbcType=TIMESTAMP}
+		</if>
+
+
+		<if test="cancelTime != null ">
+			AND cancel_time = #{cancelTime,jdbcType=TIMESTAMP}
+		</if>
+
+
+		<if test="buyerRate != null ">
+			AND buyer_rate = #{buyerRate,jdbcType=INTEGER}
+		</if>
+
+
+		<if test="rateStatus != null ">
+			AND rate_status = #{rateStatus,jdbcType=INTEGER}
+		</if>
+
+
+		<if test="disabled != null ">
+			AND disabled = #{disabled,jdbcType=INTEGER}
+		</if>
+
+
+		<if test="cancelStatus != null ">
+			AND cancel_status = #{cancelStatus,jdbcType=INTEGER}
+		</if>
+
+		<if test="tallyType != null ">
+			AND tally_type = #{tallyType,jdbcType=INTEGER}
+		</if>
+
+
+		<if test="uuid != null ">
+			AND uuid = #{uuid,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="courseId != null ">
+			AND course_id = #{courseId,jdbcType=BIGINT}
+		</if>
+
+
+		<if test="courseName != null ">
+			AND course_name = #{courseName,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+
+
+		<if test="orgName != null ">
+			AND org_name = #{orgName,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="stuAvatar != null ">
+			AND stu_avatar = #{stuAvatar,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="stuSex != null ">
+			AND stu_sex = #{stuSex,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="stuAge != null ">
+			AND stu_age = #{stuAge,jdbcType=INTEGER}
+		</if>
+
+
+		<if test="phone != null ">
+			AND phone = #{phone,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="image != null ">
+			AND image = #{image,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="remark != null ">
+			AND remark = #{remark,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="targetName != null ">
+			AND target_name = #{targetName,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="teacherId != null ">
+			AND teacher_id = #{teacherId,jdbcType=BIGINT}
+		</if>
+
+
+		<if test="classtimes != null ">
+			AND classtimes = #{classtimes,jdbcType=INTEGER}
+		</if>
+
+
+		<if test="activityNumber != null ">
+			AND activity_number = #{activityNumber,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="activityPrize != null ">
+			AND activity_prize = #{activityPrize,jdbcType=VARCHAR}
+		</if>
+
+		<if test="term != null ">
+			AND term = #{term,jdbcType=INTEGER}
+		</if>
+
+		<if test="serialNumber != null ">
+			AND serial_number = #{serialNumber,jdbcType=VARCHAR}
+		</if>
+
+		<if test="stuBirthday != null ">
+			AND stu_hobby = #{stuBirthday,jdbcType=TIMESTAMP}
+		</if>
+
+		<if test="stuHobby != null ">
+			AND serial_number = #{stuHobby,jdbcType=VARCHAR}
+		</if>
+
+		<if test="rateContent != null ">
+			AND rate_content = #{rateContent,jdbcType=VARCHAR}
+		</if>
+
+		<if test="rateScore != null ">
+			AND rate_score = #{rateScore,jdbcType=DECIMAL}
+		</if>
+
+		<if test="rateTime != null ">
+			AND rate_time = #{rateTime,jdbcType=TIMESTAMP}
+		</if>
+
+		<if test="restclass != null ">
+			AND restclass = #{restclass,jdbcType=INTEGER}
+		</if>
+
+		<if test="restType != null ">
+			AND rest_type = #{restType,jdbcType=INTEGER}
+		</if>
+
+		<!-- 页面搜索条件 -->
+		<!-- 模糊查询条件 -->
+		<if test="filter_bn != null">
+			AND bn like CONCAT('%','${filter_bn}','%')
+		</if>
+
+		<if test="filter_phone != null">
+			AND phone like CONCAT('%','${filter_phone}','%')
+		</if>
+
+		<if test="filter_targetName != null">
+			AND target_name like
+			CONCAT('%','${filter_targetName}','%')
+		</if>
+
+		<if test="filter_orgName != null">
+			AND org_name like CONCAT('%','${filter_orgName}','%')
+		</if>
+
+		<if test="filter_status != null ">
+			AND status = ${filter_status}
+		</if>
+
+		<if test="order_type != null ">
+			AND orderType = ${order_type}
+		</if>
+
+		<if test="openclass != null ">
+			AND openclass = ${openclass}
+		</if>
+		<if test="continueclass != null ">
+			AND continueclass = ${continueclass}
+		</if>
+		<!-- 页面时间搜索条件 -->
+
+		<if test="filter_sDate != null">
+			AND date_format(created_time,'%Y%m%d')<![CDATA[>=]]>${filter_sDate}
+		</if>
+
+		<if test=" filter_eDate != null">
+			AND date_format(created_time,'%Y%m%d')<![CDATA[<=]]>${filter_eDate}
+		</if>
+
+	</sql>
+
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="bn != null ">
+			bn = #{bn,jdbcType=VARCHAR},
+		</if>
+		<if test="targetId != null ">
+			target_id = #{targetId,jdbcType=BIGINT},
+		</if>
+		<if test="type != null ">
+			type = #{type,jdbcType=INTEGER},
+		</if>
+		<if test="unickname != null ">
+			unickname = #{unickname,jdbcType=VARCHAR},
+		</if>
+		<if test="uid != null ">
+			uid = #{uid,jdbcType=BIGINT},
+		</if>
+		<if test="stuId != null ">
+			stu_id = #{stuId,jdbcType=BIGINT},
+		</if>
+		<if test="stuName != null ">
+			stu_name = #{stuName,jdbcType=VARCHAR},
+		</if>
+		<if test="status != null ">
+			status = #{status,jdbcType=INTEGER},
+		</if>
+		<if test="cancelReason != null ">
+			cancel_reason = #{cancelReason,jdbcType=VARCHAR},
+		</if>
+		<if test="payType != null ">
+			pay_type = #{payType,jdbcType=INTEGER},
+		</if>
+		<if test="payment != null ">
+			payment = #{payment,jdbcType=DECIMAL},
+		</if>
+		<if test="totalFee != null ">
+			total_fee = #{totalFee,jdbcType=DECIMAL},
+		</if>
+		<if test="payedFee != null ">
+			payed_fee = #{payedFee,jdbcType=DECIMAL},
+		</if>
+		<if test="sellerRate != null ">
+			seller_rate = #{sellerRate,jdbcType=INTEGER},
+		</if>
+		<if test="createdTime != null ">
+			created_time = #{createdTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="payTime != null ">
+			pay_time = #{payTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="consignTime != null ">
+			consign_time = #{consignTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="endTime != null ">
+			end_time = #{endTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="updateTime != null ">
+			update_time = #{updateTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="timeOutTime != null ">
+			time_out_time = #{timeOutTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="cancelTime != null ">
+			cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="buyerRate != null ">
+			buyer_rate = #{buyerRate,jdbcType=INTEGER},
+		</if>
+		<if test="rateStatus != null ">
+			rate_status = #{rateStatus,jdbcType=INTEGER},
+		</if>
+		<if test="disabled != null ">
+			disabled = #{disabled,jdbcType=INTEGER},
+		</if>
+		<if test="cancelStatus != null ">
+			cancel_status = #{cancelStatus,jdbcType=INTEGER},
+		</if>
+		<if test="uuid != null ">
+			uuid = #{uuid,jdbcType=VARCHAR},
+		</if>
+		<if test="courseId != null ">
+			course_id = #{courseId,jdbcType=BIGINT},
+		</if>
+		<if test="courseName != null ">
+			course_name = #{courseName,jdbcType=VARCHAR},
+		</if>
+		<if test="orgId != null ">
+			org_id = #{orgId,jdbcType=BIGINT},
+		</if>
+		<if test="orgName != null ">
+			org_name = #{orgName,jdbcType=VARCHAR},
+		</if>
+		<if test="stuAvatar != null ">
+			stu_avatar = #{stuAvatar,jdbcType=VARCHAR},
+		</if>
+		<if test="stuSex != null ">
+			stu_sex = #{stuSex,jdbcType=VARCHAR},
+		</if>
+		<if test="stuAge != null ">
+			stu_age = #{stuAge,jdbcType=INTEGER},
+		</if>
+		<if test="phone != null ">
+			phone = #{phone,jdbcType=VARCHAR},
+		</if>
+		<if test="image != null ">
+			image = #{image,jdbcType=VARCHAR},
+		</if>
+		<if test="remark != null ">
+			remark = #{remark,jdbcType=VARCHAR},
+		</if>
+		<if test="targetName != null ">
+			target_name = #{targetName,jdbcType=VARCHAR},
+		</if>
+		<if test="teacherId != null ">
+			teacher_id = #{teacherId,jdbcType=BIGINT},
+		</if>
+		<if test="classtimes != null ">
+			classtimes = #{classtimes,jdbcType=INTEGER},
+		</if>
+		<if test="activityNumber != null ">
+			activity_number = #{activityNumber,jdbcType=VARCHAR},
+		</if>
+		<if test="activityPrize != null ">
+			activity_prize = #{activityPrize,jdbcType=VARCHAR},
+		</if>
+		<if test="term != null ">
+			term = #{term,jdbcType=INTEGER},
+		</if>
+
+		<if test="serialNumber != null ">
+			serial_number = #{serialNumber,jdbcType=VARCHAR},
+		</if>
+		<if test="stuBirthday != null ">
+			stu_birthday = #{stuBirthday,jdbcType=TIMESTAMP},
+		</if>
+		<if test="stuHobby != null ">
+			stu_hobby = #{stuHobby,jdbcType=VARCHAR},
+		</if>
+		<if test="rateContent != null ">
+			rate_content = #{rateContent,jdbcType=VARCHAR},
+		</if>
+
+		<if test="orderType != null ">
+			order_type = #{orderType,jdbcType=INTEGER},
+		</if>
+		<if test="rateScore != null ">
+			rate_score = #{rateScore,jdbcType=DECIMAL},
+		</if>
+
+		<if test="rateTime != null ">
+			rate_time = #{rateTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="tallyType != null ">
+			tally_type = #{tallyType,jdbcType=INTEGER},
+		</if>
+		<if test="openclass != null ">
+			openclass = #{openclass,jdbcType=INTEGER},
+		</if>
+
+		<if test="continueclass != null ">
+			continueclass = #{continueclass,jdbcType=INTEGER},
+		</if>
+
+		<if test="restclass != null ">
+			restclass = #{restclass,jdbcType=INTEGER},
+		</if>
+
+		<if test="restType != null ">
+			rest_type = #{restType,jdbcType=INTEGER},
+		</if>
+
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="OrderResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_ORDER
+		WHERE ID=#{id,jdbcType=BIGINT}
+	</select>
+
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="OrderResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_ORDER
+	</select>
+
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_ORDER
+		<where>
+			<include refid="where_column" />
+		</where>
+	</select>
+
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.Order">
+		<selectKey resultType="java.lang.Long" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS ID
+		</selectKey>
+		INSERT T_ORDER
+		(
+		<include refid="base_column" />
+		)
+		VALUES (
+		<include refid="base_value_column" />
+		)
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.Order">
+		UPDATE T_ORDER
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE ID = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE FROM T_ORDER
+		WHERE ID = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 删除多条记录 -->
+	<delete id="deleteAll">
+		DELETE FROM T_ORDER
+		WHERE ID IN
+		<foreach item="OrderId" index="index" collection="ids" open="("
+			separator="," close=")">
+			#{OrderId}
+		</foreach>
+	</delete>
+
+	<!-- 根据参数查询列表 -->
+	<select id="findByParams" resultMap="OrderResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_ORDER
+		<where>
+			1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findByPage" resultMap="OrderResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_ORDER
+		<where>
+			1=1
+			<include refid="where_column" />
+			ORDER BY created_time DESC
+		</where>
+	</select>
+	
+	<!--   查询订单id  -->
+	<select id="getById"  resultType="long">
+		SELECT id
+		FROM T_ORDER
+		
+		WHERE uuid = #{uuid,jdbcType=VARCHAR}
+	</select>
+
+	
+
+
+	<!-- 分页查询 -->
+	<select id="findListByPage" resultMap="OrderResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_ORDER
+		<where>
+			1=1
+			<include refid="where_column" />
+
+			<if test="orderStatus != null ">
+				AND status IN
+				<foreach item="status" index="index" collection="orderStatus"
+					open="(" separator="," close=")">
+					#{status}
+				</foreach>
+			</if>
+		</where>
+
+		order by id desc
+
+
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit
+			#{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+		</if>
+
+
+	</select>
+
+	<!-- 找出同一课程的所有学生id -->
+	<select id="findStuIdByCourseId" resultMap="OrderResultMap">
+		select
+		DISTINCT(t_order.stu_id) stu_id FROM t_order
+		WHERE
+		t_order.target_id=#{targetId,jdbcType=BIGINT}
+		AND t_order.type=#{type,jdbcType=INTEGER}
+		AND t_order.term =#{term,jdbcType=INTEGER}
+	</select>
+
+	<select id="findParnetIdByOrgId" resultMap="OrderResultMap">
+		select
+		DISTINCT(t_order.uid) uid FROM t_order
+		WHERE t_order.org_id= #{orgId,jdbcType=BIGINT}
+	</select>
+
+
+	<!-- 收入统计 -->
+	<!-- 总收入 -->
+	<select id="findTotalFee" resultType="String">
+		SELECT FORMAT(IFNULL(SUM(total_fee),0),2) from t_order where 1=1
+		<if test="orgId != null and  orgId != ''">
+			and org_id= #{orgId,jdbcType=BIGINT}
+		</if>
+		<if test="orderType == null  or orderType == ''">
+			and order_type in(1,2)
+		</if>
+		<if test="orderType != null  and orderType != ''">
+			and order_type = #{orderType,jdbcType=INTEGER}
+		</if>
+		<if test="today != null and  today != ''">
+			and to_days(pay_time) = to_days(now())
+		</if>
+
+
+	</select>
+
+	<!-- 总收过滤 -->
+	<select id="SeachTotalFeeSeach" resultType="com.framework.loippi.entity.OrderInfo">
+		SELECT IFNULL(SUM(total_fee), 0) AS totalFeeInfo,
+		IFNULL(COUNT(*), 0) AS ordernum,
+		IFNULL(SUM(payment), 0) AS paymentInfo,
+		IFNULL(SUM(procedure_cost), 0) AS procedureCostInfo from t_order
+		<where>
+			1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+	<!-- 订单数 -->
+	<select id="findTotaNum" resultType="String">
+		SELECT IFNULL(COUNT(*),0) from t_order where 1=1
+		<if test="orgId != null and  orgId != ''">
+			and org_id= #{orgId,jdbcType=BIGINT}
+		</if>
+		<if test="orderType == null  or orderType == ''">
+			and order_type in(1,2)
+		</if>
+		<if test="orderType != null  and orderType != ''">
+			and order_type = #{orderType,jdbcType=INTEGER}
+		</if>
+		<if test="today != null and  today != ''">
+			and to_days(pay_time) = to_days(now())
+		</if>
+	</select>
+
+	<!-- 根据机构id找用户uid -->
+	<select id="findOrderUid" resultType="com.framework.loippi.controller.app.model.OrderUid">
+		SELECT DISTINCT t_order.uid FROM t_order  where 1=1
+	
+			and org_id= #{orgId,jdbcType=BIGINT}
+	
+	</select>
+
+
+</mapper> 

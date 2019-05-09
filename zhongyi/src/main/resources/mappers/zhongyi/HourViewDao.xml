@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.HourViewDao">
+	
+	<resultMap id="HourViewResultMap" type="com.framework.loippi.entity.HourView">
+		<result property="hourId" column="hour_id" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="name" column="name" />
+		<result property="markTime" column="mark_time" />
+		<result property="coursetime" column="coursetime" />
+		<result property="nickname" column="nickname" />
+		<result property="classStatus" column="class_status" />
+		<result property="orgId" column="org_id" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 hour_id ,teacher_id ,name ,mark_time ,coursetime ,nickname ,class_status,org_id 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{hourId},#{teacherId},#{name},#{markTime},#{coursetime},#{nickname},#{classStatus},#{orgId}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="hourId != null ">
+			AND hour_id = #{hourId,jdbcType=BIGINT}
+		</if>
+		<if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="teacherId != null ">
+			AND teacher_id = #{teacherId,jdbcType=BIGINT}
+		</if>
+	
+
+	
+
+		<if test="markTime != null ">
+			AND mark_time = #{markTime,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="coursetime != null ">
+			AND coursetime = #{coursetime,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="nickname != null ">
+			AND nickname = #{nickname,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="classStatus != null ">
+			AND class_status = #{classStatus,jdbcType=INTEGER}
+		</if>
+		
+		
+				<if test="name != null">
+			AND name like CONCAT('%','${name}','%')
+		</if>
+		
+			
+				<if test="filter_sDate != null">
+			  AND  date_format(coursetime,'%Y%m%d')<![CDATA[>=]]>${filter_sDate}
+		</if>
+		
+		<if test=" filter_eDate != null">
+			  AND  date_format(coursetime,'%Y%m%d')<![CDATA[<=]]>${filter_eDate}
+		</if>
+	
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="hourId != null ">
+			hour_id = #{hourId,jdbcType=BIGINT},
+		</if>
+	  <if test="orgId != null ">
+			org_id = #{orgId,jdbcType=BIGINT},
+		</if>
+		<if test="teacherId != null ">
+			teacher_id = #{teacherId,jdbcType=BIGINT},
+		</if>
+		<if test="name != null ">
+			name = #{name,jdbcType=VARCHAR},
+		</if>
+		<if test="markTime != null ">
+			mark_time = #{markTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="coursetime != null ">
+			coursetime = #{coursetime,jdbcType=VARCHAR},
+		</if>
+		<if test="nickname != null ">
+			nickname = #{nickname,jdbcType=VARCHAR},
+		</if>
+		<if test="classStatus != null ">
+			class_status = #{classStatus,jdbcType=INTEGER},
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="HourViewResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	HOUR_VIEW
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="HourViewResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	HOUR_VIEW
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM HOUR_VIEW
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.HourView">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT HOUR_VIEW 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.HourView">
+		UPDATE	HOUR_VIEW
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM HOUR_VIEW
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM HOUR_VIEW
+		WHERE	ID	IN
+    	<foreach item="HourViewId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{HourViewId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="HourViewResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	HOUR_VIEW
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="HourViewResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM HOUR_VIEW
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+		
+		order by coursetime desc
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="HourViewResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM HOUR_VIEW
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 

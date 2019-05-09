@@ -1,0 +1,25 @@
+@charset "utf-8";
+/* CSS Document */
+*{margin:0; padding:0; -webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+:after,:before{-webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;}
+::-webkit-scrollbar{display:none; width:3px; background-color:#f5f5f5;}
+::-webkit-scrollbar-thumb{background-color:#999;}
+html,body{min-height:100%; font-size:5vw; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;}
+body{padding-top:2.8rem; background:url(../images/bg.jpg) no-repeat center 2.8rem/auto 100%;}
+.navbar{position:fixed; top:0; left:0; z-index:10; width:100%; height:2.8rem; box-shadow:0 3px 5px rgba(211,193,69,.3); background-color:#f6f913;}
+.navbar:after{content:''; display:table; clear:both;}
+.navbar-inner{margin:0 3.25rem; line-height:2.8rem; font-size:1rem; color:#703c03; text-align:center;}
+.navbar a{display:block;}
+.navbar .left{float:left; width:3rem; height:2.8rem;}
+.navbar .return-back{display:block; float:left; width:2rem; height:2.8rem; margin-left:.5rem; background:url(../images/icon-back.png) no-repeat center/.6rem 1.2rem;}
+.navbar .right{float:right; max-width:3rem; height:2.8rem;}
+.navbar .center{margin:0 .75rem;}
+
+.main{padding-top:4.5rem;}
+.logo{width:6.7rem; height:6.7rem; margin:0 auto; border-radius:50%; background-color:#f6f913;}
+.logo img{display:block; position:relative; top:.8rem; width:5.75rem; height:5rem; margin:0 auto;}
+.site-name{margin-top:1.5rem;}
+.site-name img{display:block; height:2rem; margin:0 auto;}
+.site-des{display:block; margin:1rem 0 0; padding:0; font-size:1.125rem; color:#666; text-align:center; letter-spacing:.25rem;}
+.icon-circle{display:block; position:absolute; left:50%; bottom:9rem; width:.5rem; height:2rem; margin-left:-.25rem; background:url(../images/icon-circle.png) no-repeat center/.5rem 2rem;}
+.btn-down{display:block; position:absolute; left:50%; bottom:5.8rem; width:9rem; height:2.5rem; margin-left:-4.5rem; border-radius:.25rem; background-color:#f6f913; line-height:2.5rem; text-align:center; font-size:1rem; color:#703c03; text-decoration:none;}

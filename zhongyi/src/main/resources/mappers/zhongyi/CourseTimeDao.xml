@@ -1,0 +1,320 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.CourseTimeDao">
+	
+	<resultMap id="CourseTimeResultMap" type="com.framework.loippi.entity.CourseTime">
+		<id property="id" column="id"  />
+		<result property="courseTime" column="course_time" />
+		<result property="createTime" column="create_time" />
+		<result property="courseId" column="course_id" />
+		<result property="courseTime1" column="course_time1" />
+		<result property="courseTime2" column="course_time2" />
+		<result property="courseTime3" column="course_time3" />
+		<result property="courseTime4" column="course_time4" />
+		<result property="studentId" column="student_id" />
+		<result property="term" column="term" />
+
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,course_time ,create_time ,course_id ,course_time1 ,course_time2 ,course_time3,course_time4,student_id ,term
+
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{courseTime},#{createTime},#{courseId},#{courseTime1},#{courseTime2},#{courseTime3},#{courseTime4},#{studentId},#{term}
+
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="courseTime != null ">
+			AND course_time = #{courseTime,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="createTime != null ">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="courseId != null ">
+			AND course_id = #{courseId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="courseTime1 != null ">
+			AND course_time1 = #{courseTime1,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="courseTime2 != null ">
+			AND course_time2 = #{courseTime2,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="courseTime3 != null ">
+			AND course_time3 = #{courseTime3,jdbcType=BIGINT}
+		</if>
+	<if test="courseTime4 != null ">
+			AND course_time4 = #{courseTime4,jdbcType=BIGINT}
+		</if>
+
+		<if test="studentId != null ">
+			AND student_id = #{studentId,jdbcType=BIGINT}
+		</if>
+		
+		<if test="inrollcalltime != null ">
+		and    <![CDATA[ #{inrollcalltime,jdbcType=BIGINT}<=course_time4 ]]>  
+		and    <![CDATA[ #{inrollcalltime,jdbcType=BIGINT}>=course_time3 ]]>  
+		</if>
+		<if test="term != null ">
+			AND term = #{term,jdbcType=INTEGER}
+		</if>
+		
+         <if test="teachertime1 != null and teachertime1 != ''">
+	        and    <![CDATA[
+	        
+	        ( #{teachertime1,jdbcType=BIGINT} >=T_COURSE_TIME.course_time3 
+	        
+	           and    #{teachertime1,jdbcType=BIGINT} <=T_COURSE_TIME.course_time4 )]]>  
+	     </if>
+	
+
+		
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="courseTime != null ">
+			course_time = #{courseTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="createTime != null ">
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="courseId != null ">
+			course_id = #{courseId,jdbcType=BIGINT},
+		</if>
+		<if test="courseTime1 != null ">
+			course_time1 = #{courseTime1,jdbcType=VARCHAR},
+		</if>
+		<if test="courseTime2 != null ">
+			course_time2 = #{courseTime2,jdbcType=VARCHAR},
+		</if>
+		<if test="courseTime3 != null ">
+			course_time3 = #{courseTime3,jdbcType=BIGINT},
+		</if>
+		<if test="courseTime4 != null ">
+			course_time4 = #{courseTime4,jdbcType=BIGINT},
+		</if>
+		<if test="studentId != null ">
+			student_id = #{studentId,jdbcType=BIGINT},
+		</if>
+		<if test="term != null ">
+			 term = #{term,jdbcType=INTEGER}
+		</if>
+	
+	
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="CourseTimeResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_COURSE_TIME
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="CourseTimeResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_COURSE_TIME
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_COURSE_TIME
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.CourseTime">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_COURSE_TIME 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.CourseTime">
+		UPDATE	T_COURSE_TIME
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_COURSE_TIME
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_COURSE_TIME
+		WHERE	ID	IN
+    	<foreach item="CourseTimeId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{CourseTimeId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="CourseTimeResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_COURSE_TIME
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="CourseTimeResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_COURSE_TIME
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+  <select id="findCourseTimeById"  resultType="com.framework.loippi.controller.app.model.AppCourseTimeTch">
+     SELECT  tct.id as timeId,CONCAT(DATE_FORMAT(tct.course_time,'%Y年%m月%d日')," ",tct.course_time1,"~",tct.course_time2) as coursetime from t_course_tea_time tct where course_id=#{courseId,jdbcType=BIGINT}  and course_time> date_add(DATE_FORMAT(NOW(),'%Y-%m-%d'), interval 3 day) ORDER BY course_time3 asc
+      	<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+</select>
+
+   <select id="findCourseTime1"  resultType="java.lang.String">
+     SELECT  CONCAT(DATE_FORMAT(tct.course_time,'%Y年%m月%d日')," ",tct.course_time1,"~",tct.course_time2) as coursetime from t_course_tea_time tct where tct.id in (${timeIds})  ORDER BY course_time3 desc
+</select>
+
+ <select id="findCourseTime3"  resultType="java.lang.String">
+     SELECT  CONCAT(tct.course_time," ",tct.course_time1,"~",tct.course_time2) as coursetime from t_course_stu_time tct where tct.id in (${timeIds})  ORDER BY course_time3 desc
+</select>
+
+   <select id="findCourseTimeById2"  resultType="com.framework.loippi.controller.app.model.AppCourseTimeTch">
+    select id as timeId,CONCAT(DATE_FORMAT(course_time,'%Y年%m月%d日')," ",course_time1,"~",course_time2) as coursetime FROM t_course_stu_time where course_time> date_add(DATE_FORMAT(NOW(),'%Y-%m-%d'), interval 0 day) and order_id=#{orderId,jdbcType=BIGINT}  ORDER BY course_time3 asc
+  	<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+</select>
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="CourseTimeResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_COURSE_TIME
+		<where> 1=1
+			<include refid="where_column" />
+			
+			<if test="pageSize3 != null and pageSize3 != ''">
+	        and    <![CDATA[ #{pageSize3,jdbcType=BIGINT} <T_COURSE_TIME.course_time3 ]]>  
+	     </if>
+	     
+	     	<if test="pageSize4 != null and pageSize4 != ''">
+	        and    <![CDATA[ #{pageSize4,jdbcType=BIGINT} >T_COURSE_TIME.course_time3 ]]>  
+	     </if>
+	     	         <!-- 未评价-->
+	     <if test="notcomment != null and notcomment != ''">
+	        and  id not
+	         in(select t_course_time_comment.time_id
+	         from  t_course_time_comment where t_course_time_comment.course_id = #{courseId,jdbcType=BIGINT}
+	         and student_id =#{timestudentId,jdbcType=BIGINT}
+	         )
+	     </if>
+	     
+	              <!-- 已经结束-->
+	     <if test="hadcomment != null and hadcomment != ''">
+	        and  id 
+	         in(select t_course_time_comment.time_id
+	         from  t_course_time_comment where t_course_time_comment.course_id= #{courseId,jdbcType=BIGINT}
+	         and student_id =#{timestudentId,jdbcType=BIGINT}
+	         )
+	     </if>
+		<if test="notstudent != null and notstudent != ''">
+		and student_id  <![CDATA[ is null ]]>  
+	     </if>
+		
+		<if test="instudent != null and instudent != ''">
+		and student_id =#{instudent,jdbcType=BIGINT}
+	     </if>
+			
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+	
+	
+
+		<!-- 根据参数查询列表-->
+	<select id="findByParams2" resultMap="CourseTimeResultMap">
+					SELECT T_COURSE_TIME.* FROM 
+		
+ t_course,T_COURSE_TIME
+where t_course.id=T_COURSE_TIME.course_id
+		
+	and	t_course.teacher_id=#{teacherId,jdbcType=BIGINT}
+		        and    <![CDATA[
+	        
+	        ( #{teachertime2,jdbcType=BIGINT} >=T_COURSE_TIME.course_time3 
+	        
+	         and    #{teachertime2,jdbcType=BIGINT} <=T_COURSE_TIME.course_time4 )]]>  
+	</select>
+	
+
+	
+		<!-- 根据参数查询列表-->
+	<select id="findByParams3" resultMap="CourseTimeResultMap">
+					SELECT T_COURSE_TIME.* FROM 
+		
+ t_course,T_COURSE_TIME
+where t_course.id=T_COURSE_TIME.course_id
+		
+and	t_course.class_id=#{classId,jdbcType=BIGINT}
+		        and    <![CDATA[
+	        
+	        ( #{teachertime2,jdbcType=BIGINT} >=T_COURSE_TIME.course_time3 
+	        
+	         and    #{teachertime2,jdbcType=BIGINT} <=T_COURSE_TIME.course_time4 )]]>  
+	</select>
+
+	
+	
+	
+</mapper> 

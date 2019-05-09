@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.UserUnreadDao">
+	
+	<resultMap id="UserUnreadResultMap" type="com.framework.loippi.entity.UserUnread">
+		<id property="id" column="id"  />
+		<result property="taskTotal" column="task_total" />
+		<result property="dynamicStatus" column="dynamic_status" />
+		<result property="systemMesStatus" column="system_mes_status" />
+		<result property="courserMesStatus" column="courser_mes_status" />
+		<result property="classRemindStatus" column="class_remind_status" />
+		<result property="userId" column="user_id" />
+		<result property="userType" column="user_type" />
+		<result property="friendStatus" column="friend_status" />
+		
+		
+		<result property="createDate" column="create_date" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,task_total ,dynamic_status ,system_mes_status ,courser_mes_status ,class_remind_status ,user_id ,user_type ,create_date,friend_status 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{taskTotal},#{dynamicStatus},#{systemMesStatus},#{courserMesStatus},#{classRemindStatus},#{userId},#{userType},#{createDate},#{friendStatus}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="taskTotal != null ">
+			AND task_total = #{taskTotal,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="dynamicStatus != null ">
+			AND dynamic_status = #{dynamicStatus,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="systemMesStatus != null ">
+			AND system_mes_status = #{systemMesStatus,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="courserMesStatus != null ">
+			AND courser_mes_status = #{courserMesStatus,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="classRemindStatus != null ">
+			AND class_remind_status = #{classRemindStatus,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="userId != null ">
+			AND user_id = #{userId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="userType != null ">
+			AND user_type = #{userType,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="createDate != null ">
+			AND create_date = #{createDate,jdbcType=TIMESTAMP}
+		</if>
+		
+			<if test="friendStatus != null ">
+			AND friend_status = #{friendStatus,jdbcType=INTEGER}
+		</if>
+	
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="taskTotal != null ">
+			task_total = #{taskTotal,jdbcType=INTEGER},
+		</if>
+		<if test="dynamicStatus != null ">
+			dynamic_status = #{dynamicStatus,jdbcType=INTEGER},
+		</if>
+		<if test="systemMesStatus != null ">
+			system_mes_status = #{systemMesStatus,jdbcType=INTEGER},
+		</if>
+		<if test="courserMesStatus != null ">
+			courser_mes_status = #{courserMesStatus,jdbcType=INTEGER},
+		</if>
+		<if test="classRemindStatus != null ">
+			class_remind_status = #{classRemindStatus,jdbcType=INTEGER},
+		</if>
+		<if test="userId != null ">
+			user_id = #{userId,jdbcType=BIGINT},
+		</if>
+		<if test="userType != null ">
+			user_type = #{userType,jdbcType=INTEGER},
+		</if>
+		<if test="createDate != null ">
+			create_date = #{createDate,jdbcType=TIMESTAMP},
+		</if>
+			<if test="friendStatus != null ">
+			friend_status = #{friendStatus,jdbcType=INTEGER}
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="UserUnreadResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_USER_UNREAD
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="UserUnreadResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_USER_UNREAD
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_USER_UNREAD
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.UserUnread">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_USER_UNREAD 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.UserUnread">
+		UPDATE	T_USER_UNREAD
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_USER_UNREAD
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_USER_UNREAD
+		WHERE	ID	IN
+    	<foreach item="UserUnreadId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{UserUnreadId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="UserUnreadResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_USER_UNREAD
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="UserUnreadResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_USER_UNREAD
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="UserUnreadResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_USER_UNREAD
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 

@@ -1,0 +1,440 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.OrgDynamicDao">
+	
+	<resultMap id="OrgDynamicResultMap" type="com.framework.loippi.entity.OrgDynamic">
+		<id property="id" column="id"  />
+		<result property="imgUrl" column="img_url" />
+		<result property="textContent" column="text_content" />
+		<result property="prompt" column="prompt" />
+		<result property="starts" column="starts" />
+		<result property="mark" column="mark" />
+		<result property="callrollStatus" column="callroll_status" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="courseId" column="course_id" />
+		<result property="courseName" column="course_name" />
+		<result property="teacherName" column="teacher_name" />
+		<result property="avatar" column="avatar" />
+		<result property="createDate" column="create_date" />
+		<result property="userId" column="user_id" />
+		<result property="stuId" column="stu_id" />
+		<result property="type" column="type" />
+		<result property="callrollId" column="callroll_id" />
+		<result property="userType" column="user_type" />
+		<result property="inviteStatus" column="invite_status" />
+		<result property="inviteId" column="invite_id" />
+			<result property="oldCourseName" column="old_course_name" />
+		<result property="newCourseName" column="new_course_name" />
+		<result property="remainTime" column="remain_time" />
+		<result property="targetId" column="target_id" />
+		<result property="status" column="status" />
+		<result property="orgId" column="org_id" />
+		<result property="inviteReason" column="invite_reason" />
+		<result property="refuseReason" column="refuse_reason" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,img_url ,text_content ,prompt ,starts ,mark ,callroll_status 
+		 ,teacher_id ,course_id ,course_name ,teacher_name ,avatar 
+		 ,create_date ,stu_id ,type,callroll_id,user_id,user_type
+		 ,invite_id,invite_status,old_course_name,new_course_name,remain_time,target_id,status,org_id,invite_reason,refuse_reason
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{imgUrl},#{textContent},#{prompt},#{starts},#{mark},#{callrollStatus}
+		 ,#{teacherId},#{courseId},#{courseName},#{teacherName},#{avatar},#{createDate}
+		 ,#{stuId},#{type},#{callrollId},#{userId},#{userType},#{inviteId}
+		 ,#{inviteStatus},#{oldCourseName},#{newCourseName},#{remainTime},#{targetId},#{status},#{orgId},#{inviteReason},#{refuseReason}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="imgUrl != null ">
+			AND img_url = #{imgUrl,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="textContent != null ">
+			AND text_content = #{textContent,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="prompt != null ">
+			AND prompt = #{prompt,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="starts != null ">
+			AND starts = #{starts,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="mark != null ">
+			AND mark = #{mark,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="callrollStatus != null ">
+			AND callroll_status = #{callrollStatus,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="teacherId != null ">
+			AND teacher_id = #{teacherId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="courseId != null ">
+			AND course_id = #{courseId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="courseName != null ">
+			AND course_name = #{courseName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="teacherName != null ">
+			AND teacher_name = #{teacherName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="avatar != null ">
+			AND avatar = #{avatar,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="createDate != null ">
+			AND create_date = #{createDate,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="userId != null ">
+			AND user_id = #{userId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="stuId != null ">
+			AND stu_id = #{stuId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="type != null ">
+			AND type = #{type,jdbcType=INTEGER}
+		</if>
+		
+			<if test="callrollId != null ">
+			AND callroll_id = #{callrollId,jdbcType=INTEGER}
+		</if>
+		<if test="userType != null ">
+			AND user_type = #{userType,jdbcType=INTEGER}
+		</if>
+		
+		<if test="targetId != null ">
+			AND target_id = #{targetId,jdbcType=BIGINT}
+		</if>
+	<if test="status != null ">
+			AND status = #{status,jdbcType=INTEGER}
+		</if>
+		
+		<if test="inviteStatus != null ">
+			AND invite_status = #{inviteStatus,jdbcType=INTEGER}
+		</if>
+
+		
+		
+		<if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+		
+		<if test="inviteId != null ">
+			AND invite_id = #{inviteId,jdbcType=BIGINT}
+		</if>
+		<if test="inviteReason != null ">
+			AND invite_reason = #{inviteReason,jdbcType=VARCHAR}
+		</if>
+		<if test="refuseReason != null ">
+			AND refuse_reason = #{refuseReason,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="imgUrl != null ">
+			img_url = #{imgUrl,jdbcType=VARCHAR},
+		</if>
+		<if test="textContent != null ">
+			text_content = #{textContent,jdbcType=VARCHAR},
+		</if>
+		<if test="prompt != null ">
+			prompt = #{prompt,jdbcType=VARCHAR},
+		</if>
+		<if test="starts != null ">
+			starts = #{starts,jdbcType=INTEGER},
+		</if>
+		<if test="mark != null ">
+			mark = #{mark,jdbcType=VARCHAR},
+		</if>
+		<if test="callrollStatus != null ">
+			callroll_status = #{callrollStatus,jdbcType=INTEGER},
+		</if>
+		<if test="teacherId != null ">
+			teacher_id = #{teacherId,jdbcType=BIGINT},
+		</if>
+		<if test="courseId != null ">
+			course_id = #{courseId,jdbcType=BIGINT},
+		</if>
+		<if test="courseName != null ">
+			course_name = #{courseName,jdbcType=VARCHAR},
+		</if>
+		<if test="teacherName != null ">
+			teacher_name = #{teacherName,jdbcType=VARCHAR},
+		</if>
+		<if test="avatar != null ">
+			avatar = #{avatar,jdbcType=VARCHAR},
+		</if>
+		<if test="createDate != null ">
+			create_date = #{createDate,jdbcType=TIMESTAMP},
+		</if>
+		<if test="userId != null ">
+			user_id = #{userId,jdbcType=BIGINT},
+		</if>
+		<if test="stuId != null ">
+			stu_id = #{stuId,jdbcType=BIGINT},
+		</if>
+		<if test="type != null ">
+			type = #{type,jdbcType=INTEGER},
+		</if>
+		<if test="callrollId != null ">
+			callroll_id = #{callrollId,jdbcType=INTEGER},
+		</if>
+		<if test="userType != null ">
+			user_type = #{userType,jdbcType=INTEGER},
+		</if>
+		<if test="oldCourseName != null ">
+			old_course_name = #{oldCourseName,jdbcType=VARCHAR},
+		</if>
+		<if test="newCourseName != null ">
+			new_course_name = #{newCourseName,jdbcType=VARCHAR},
+		</if>
+		<if test="remainTime != null ">
+			remain_time = #{remainTime,jdbcType=INTEGER},
+		</if>
+		
+				<if test="targetId != null ">
+			 target_id = #{targetId,jdbcType=BIGINT},
+		</if>
+		
+		<if test="status != null ">
+			 status = #{status,jdbcType=INTEGER},
+		</if>
+
+			<if test="inviteStatus != null ">
+			invite_status = #{inviteStatus,jdbcType=INTEGER},
+		</if>
+
+		
+		<if test="orgId != null ">
+			org_id = #{orgId,jdbcType=BIGINT},
+		</if>
+		
+		<if test="inviteId != null ">
+			invite_id = #{inviteId,jdbcType=BIGINT},
+		</if>
+		<if test="inviteReason != null ">
+			invite_reason = #{inviteReason,jdbcType=VARCHAR},
+		</if>
+		<if test="refuseReason != null ">
+			refuse_reason = #{refuseReason,jdbcType=VARCHAR}
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="OrgDynamicResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_ORG_DYNAMIC
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="OrgDynamicResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_ORG_DYNAMIC
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_ORG_DYNAMIC
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.OrgDynamic">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_ORG_DYNAMIC 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.OrgDynamic">
+		UPDATE	T_ORG_DYNAMIC
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_ORG_DYNAMIC
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_ORG_DYNAMIC
+		WHERE	ID	IN
+    	<foreach item="OrgDynamicId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{OrgDynamicId} 
+		</foreach>
+	</delete>
+	
+		<!-- 删除单条记录 -->
+	<delete id="deleteByParams" parameterType="Long">
+		DELETE	FROM T_ORG_DYNAMIC
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="OrgDynamicResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_ORG_DYNAMIC
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+		ORDER BY id desc
+	</select>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByType3" resultMap="OrgDynamicResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_ORG_DYNAMIC
+	     where 1=1
+	     <if test="userId != null ">
+			AND user_id = #{userId,jdbcType=BIGINT}
+		</if>
+		
+		
+		<if test="type != null ">
+			AND type in(3,6)
+		</if>
+		
+		<if test="userType != null ">
+			AND user_type = #{userType,jdbcType=INTEGER}
+		</if>
+		
+		ORDER BY id desc
+		
+			<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+	</select>
+	
+	<!-- 消息列表-->
+	<select id="findMesList" resultType="com.framework.loippi.controller.app.model.MesList">
+		   SELECT
+				max(id) as id,
+				tod.prompt,
+				tod.text_content as content,
+				tod.type
+			FROM
+				t_org_dynamic tod
+			WHERE
+				tod.type IN (3, 4, 5)
+		 	AND tod.user_id = #{userId,jdbcType=BIGINT}
+			AND tod.user_type =#{userType,jdbcType=INTEGER}
+			GROUP BY
+				tod.type
+			ORDER BY
+			  tod.id desc
+		
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="OrgDynamicResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_ORG_DYNAMIC
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+		    
+		  order by  id desc
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+
+        
+             <!-- 分页机构动态-->
+       <select id="findOrgDynamic" resultMap="OrgDynamicResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_ORG_DYNAMIC
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	    and type in(1,2,3,4,6)				
+
+		order by  id desc
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+        
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="OrgDynamicResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_ORG_DYNAMIC
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+		order by id desc
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 

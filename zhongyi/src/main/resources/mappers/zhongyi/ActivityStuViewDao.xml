@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.ActivityStuViewDao">
+	
+	<resultMap id="ActivityStuViewResultMap" type="com.framework.loippi.entity.ActivityStuView">
+		<result property="account" column="account" />
+		<result property="nickName" column="nick_name" />
+		<result property="targetId" column="target_id" />
+		<result property="term" column="term" />
+		<result property="id" column="id" />
+		<result property="stuId" column="stu_id" />
+		<result property="uid" column="uid" />
+		<result property="phone" column="phone" />
+		<result property="remark" column="remark" />
+		<result property="stuName" column="stu_name" />
+		<result property="stuSex" column="stu_sex" />
+		<result property="stuAvatar" column="stu_avatar" />
+		<result property="stuBirthday" column="stu_birthday" />
+		<result property="createdTime" column="created_time" />
+		<result property="activityNumber" column="activity_number" />
+		<result property="activityPrize" column="activity_prize" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 account ,nick_name ,target_id ,term ,id ,stu_id ,uid ,phone ,remark ,stu_name ,stu_sex ,stu_avatar ,stu_birthday ,created_time ,activity_number ,activity_prize 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{account},#{nickName},#{targetId},#{term},#{id},#{stuId},#{uid},#{phone},#{remark},#{stuName},#{stuSex},#{stuAvatar},#{stuBirthday},#{createdTime},#{activityNumber},#{activityPrize}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="account != null ">
+			AND account = #{account,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="nickName != null ">
+			AND nick_name = #{nickName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="targetId != null ">
+			AND target_id = #{targetId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="term != null ">
+			AND term = #{term,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="stuId != null ">
+			AND stu_id = #{stuId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="uid != null ">
+			AND uid = #{uid,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="phone != null ">
+			AND phone = #{phone,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="remark != null ">
+			AND remark = #{remark,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="stuName != null ">
+			AND stu_name = #{stuName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="stuSex != null ">
+			AND stu_sex = #{stuSex,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="stuAvatar != null ">
+			AND stu_avatar = #{stuAvatar,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="stuBirthday != null ">
+			AND stu_birthday = #{stuBirthday,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="createdTime != null ">
+			AND created_time = #{createdTime,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="activityNumber != null ">
+			AND activity_number = #{activityNumber,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="activityPrize != null ">
+			AND activity_prize = #{activityPrize,jdbcType=VARCHAR}
+		</if>
+		
+		<!-- 模糊查询条件 -->
+		<if test="filter_account != null">
+			AND account like CONCAT('%','${filter_account}','%')
+		</if>
+		
+		<if test="filter_stuName != null">
+			AND stu_name like CONCAT('%','${filter_stuName}','%')
+		</if>
+	
+		
+		<if test="filter_activityNumber != null">
+			AND activityNumber like CONCAT('%','${filter_activityNumber}','%')
+		</if>
+	
+	
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="account != null ">
+			account = #{account,jdbcType=VARCHAR},
+		</if>
+		<if test="nickName != null ">
+			nick_name = #{nickName,jdbcType=VARCHAR},
+		</if>
+		<if test="targetId != null ">
+			target_id = #{targetId,jdbcType=BIGINT},
+		</if>
+		<if test="term != null ">
+			term = #{term,jdbcType=INTEGER},
+		</if>
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="stuId != null ">
+			stu_id = #{stuId,jdbcType=BIGINT},
+		</if>
+		<if test="uid != null ">
+			uid = #{uid,jdbcType=BIGINT},
+		</if>
+		<if test="phone != null ">
+			phone = #{phone,jdbcType=VARCHAR},
+		</if>
+		<if test="remark != null ">
+			remark = #{remark,jdbcType=VARCHAR},
+		</if>
+		<if test="stuName != null ">
+			stu_name = #{stuName,jdbcType=VARCHAR},
+		</if>
+		<if test="stuSex != null ">
+			stu_sex = #{stuSex,jdbcType=VARCHAR},
+		</if>
+		<if test="stuAvatar != null ">
+			stu_avatar = #{stuAvatar,jdbcType=VARCHAR},
+		</if>
+		<if test="stuBirthday != null ">
+			stu_birthday = #{stuBirthday,jdbcType=TIMESTAMP},
+		</if>
+		<if test="createdTime != null ">
+			created_time = #{createdTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="activityNumber != null ">
+			activity_number = #{activityNumber,jdbcType=VARCHAR},
+		</if>
+		<if test="activityPrize != null ">
+			activity_prize = #{activityPrize,jdbcType=VARCHAR},
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="ActivityStuViewResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	ACTIVITY_STU_VIEW
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="ActivityStuViewResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	ACTIVITY_STU_VIEW
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM ACTIVITY_STU_VIEW
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.ActivityStuView">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT ACTIVITY_STU_VIEW 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.ActivityStuView">
+		UPDATE	ACTIVITY_STU_VIEW
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM ACTIVITY_STU_VIEW
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM ACTIVITY_STU_VIEW
+		WHERE	ID	IN
+    	<foreach item="ActivityStuViewId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{ActivityStuViewId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="ActivityStuViewResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	ACTIVITY_STU_VIEW
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="ActivityStuViewResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM ACTIVITY_STU_VIEW
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="ActivityStuViewResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM ACTIVITY_STU_VIEW
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 

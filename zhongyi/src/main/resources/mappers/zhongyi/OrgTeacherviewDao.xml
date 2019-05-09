@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.OrgTeacherviewDao">
+	
+	<resultMap id="OrgTeacherviewResultMap" type="com.framework.loippi.entity.OrgTeacherview">
+		<result property="teacherId" column="teacher_id" />
+		<result property="account" column="account" />
+		<result property="nickname" column="nickname" />
+		<result property="avatar" column="avatar" />
+		<result property="sex" column="sex" />
+		<result property="teacherType" column="teacher_type" />
+		<result property="joinTime" column="join_time" />
+		<result property="favStar" column="fav_star" />
+		<result property="status" column="status" />
+		<result property="orgId" column="org_id" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 teacher_id ,account ,nickname ,avatar ,sex ,teacher_type ,join_time ,fav_star ,status ,org_id 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{teacherId},#{account},#{nickname},#{avatar},#{sex},#{teacherType},#{joinTime},#{favStar},#{status},#{orgId}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="teacherId != null ">
+			AND teacher_id = #{teacherId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="account != null ">
+			AND account = #{account,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="nickname != null ">
+			AND nickname = #{nickname,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="avatar != null ">
+			AND avatar = #{avatar,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="sex != null ">
+			AND sex = #{sex,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="teacherType != null ">
+			AND teacher_type = #{teacherType,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="joinTime != null ">
+			AND join_time = #{joinTime,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="favStar != null ">
+			AND fav_star = #{favStar,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="status != null ">
+			AND status = #{status,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+	
+		<!-- 页面搜索条件 -->
+		<!-- 模糊查询条件 -->
+		<if test="filter_account != null">
+			AND org_teacherview.account like CONCAT('%','${filter_account}','%')
+		</if>
+		
+		<if test="filter_nickname != null">
+			AND org_teacherview.nickname like CONCAT('%','${filter_nickname}','%')
+		</if>
+		
+		<if test="filter_orgName != null">
+			AND org_teacherview.org_name like CONCAT('%','${filter_orgName}','%')
+		</if>
+		
+		<if test="filter_teacherType != null ">
+			AND org_teacherview.teacher_type = ${filter_teacherType}
+		</if>
+		
+		<if test="filter_status != null ">
+			AND org_teacherview.status = ${filter_status}
+		</if> 
+		
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="teacherId != null ">
+			teacher_id = #{teacherId,jdbcType=BIGINT},
+		</if>
+		<if test="account != null ">
+			account = #{account,jdbcType=VARCHAR},
+		</if>
+		<if test="nickname != null ">
+			nickname = #{nickname,jdbcType=VARCHAR},
+		</if>
+		<if test="avatar != null ">
+			avatar = #{avatar,jdbcType=VARCHAR},
+		</if>
+		<if test="sex != null ">
+			sex = #{sex,jdbcType=VARCHAR},
+		</if>
+		<if test="teacherType != null ">
+			teacher_type = #{teacherType,jdbcType=INTEGER},
+		</if>
+		<if test="joinTime != null ">
+			join_time = #{joinTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="favStar != null ">
+			fav_star = #{favStar,jdbcType=INTEGER},
+		</if>
+		<if test="status != null ">
+			status = #{status,jdbcType=INTEGER},
+		</if>
+		<if test="orgId != null ">
+			org_id = #{orgId,jdbcType=BIGINT},
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="OrgTeacherviewResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	ORG_TEACHERVIEW
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="OrgTeacherviewResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	ORG_TEACHERVIEW
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM ORG_TEACHERVIEW
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.OrgTeacherview">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT ORG_TEACHERVIEW 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.OrgTeacherview">
+		UPDATE	ORG_TEACHERVIEW
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM ORG_TEACHERVIEW
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM ORG_TEACHERVIEW
+		WHERE	ID	IN
+    	<foreach item="OrgTeacherviewId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{OrgTeacherviewId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="OrgTeacherviewResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	ORG_TEACHERVIEW
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="OrgTeacherviewResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM ORG_TEACHERVIEW
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="OrgTeacherviewResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM ORG_TEACHERVIEW
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.FriendsDao">
+
+    <resultMap id="FriendsResultMap" type="com.framework.loippi.entity.Friends">
+        <id property="id" column="id"/>
+        <result property="uid" column="uid"/>
+        <result property="destUid" column="dest_uid"/>
+        <result property="status" column="STATUS"/>
+        <result property="isApply" column="is_apply"/>
+        <result property="createDate" column="create_date"/>
+        <result property="isClear" column="is_clear"/>
+    </resultMap>
+
+    <!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+    <sql id="base_column">
+		 id ,uid ,dest_uid ,STATUS ,is_apply ,create_date ,is_clear 
+	</sql>
+
+    <sql id="base_value_column">
+		 #{id},#{uid},#{destUid},#{status},#{isApply},#{createDate},#{isClear}
+	</sql>
+
+    <!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+    <sql id="where_column">
+        <if test="status != null and status != ''">
+            AND STATUS = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="unStatus != null and unStatus != ''">
+            AND STATUS != #{unStatus,jdbcType=INTEGER}
+        </if>
+        <if test="uid != null and uid != ''">
+            AND uid = #{uid,jdbcType=BIGINT}
+        </if>
+        <if test="destUid != null and destUid != ''">
+            AND dest_uid = #{destUid,jdbcType=BIGINT}
+        </if>
+        <if test="isClear != null ">
+            AND is_clear = #{isClear,jdbcType=INTEGER}
+        </if>
+         <if test="isApply != null and isApply != ''">
+            AND is_apply = #{isApply,jdbcType=INTEGER}
+        </if>
+    </sql>
+
+    <!-- 设置语句 -->
+    <sql id="set_column">
+        <if test="id != null">
+            id = #{id,jdbcType=BIGINT},
+        </if>
+        <if test="uid != null">
+            uid = #{uid,jdbcType=BIGINT},
+        </if>
+        <if test="destUid != null">
+            dest_uid = #{destUid,jdbcType=BIGINT},
+        </if>
+        <if test="status != null">
+            STATUS = #{status,jdbcType=INTEGER},
+        </if>
+        <if test="isApply != null">
+            is_apply = #{isApply,jdbcType=INTEGER},
+        </if>
+        <if test="createDate != null">
+            create_date = #{createDate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="isClear != null">
+            is_clear = #{isClear,jdbcType=INTEGER},
+        </if>
+    </sql>
+
+    <!-- 根据ID查询 -->
+    <select id="find" resultMap="FriendsResultMap">
+        SELECT
+        <include refid="base_column"/>
+        FROM T_FRIENDS
+        WHERE ID=#{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="findAll" resultMap="FriendsResultMap">
+        SELECT
+        <include refid="base_column"/>
+        FROM T_FRIENDS
+    </select>
+
+    <!-- 统计记录数 -->
+    <select id="count" resultType="long">
+        SELECT COUNT(*) FROM T_FRIENDS
+        <where>
+            <include refid="where_column"/>
+        </where>
+    </select>
+
+    <!-- 插入 -->
+    <insert id="insert" parameterType="com.framework.loippi.entity.Friends">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
+        INSERT T_FRIENDS
+        (
+        <include refid="base_column"/>
+        )
+        VALUES (<include refid="base_value_column"/>)
+    </insert>
+
+    <!-- 修改 -->
+    <update id="update" parameterType="com.framework.loippi.entity.Friends">
+        UPDATE T_FRIENDS
+        <set>
+            <include refid="set_column"/>
+        </set>
+        WHERE ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 删除单条记录 -->
+    <delete id="delete">
+		DELETE	FROM T_FRIENDS
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+
+    <!-- 删除多条记录-->
+    <delete id="deleteAll">
+        DELETE FROM T_FRIENDS
+        WHERE ID IN
+        <foreach item="FriendsId" index="index" collection="ids" open="(" separator="," close=")">
+            #{FriendsId}
+        </foreach>
+    </delete>
+
+    <!-- 根据参数查询列表-->
+    <select id="findByParams" resultMap="FriendsResultMap">
+        SELECT
+        <include refid="base_column"/>
+        FROM T_FRIENDS
+        <where>1=1
+            <include refid="where_column"/>
+        </where>
+    </select>
+
+    <!-- 分页查询-->
+    <select id="findByPage" resultMap="FriendsResultMap">
+        SELECT
+        <include refid="base_column"/>
+        FROM T_FRIENDS
+        <where>1=1
+            <include refid="where_column"/>
+        </where>
+    </select>
+
+    <select id="findIn" resultMap="FriendsResultMap">
+        SELECT
+        <include refid="base_column"/>
+        FROM T_FRIENDS
+        <where>
+            dest_uid IN
+            <foreach item="destUid" index="index" collection="destUids" open="(" separator="," close=")">
+                #{destUid}
+            </foreach>
+
+            AND uid = #{uid,jdbcType=BIGINT}
+        </where>
+    </select>
+	 <!-- 修改 -->
+    <update id="clearApply" parameterType="com.framework.loippi.entity.Friends">
+        UPDATE T_FRIENDS
+        <set>
+             is_clear = 1
+        </set>
+        WHERE UID = #{uid,jdbcType=BIGINT}
+    </update>
+</mapper> 

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.UStudentDao">
+	
+	<resultMap id="UStudentResultMap" type="com.framework.loippi.entity.UStudent">
+		<result property="id" column="id" />
+		<result property="uid" column="uid" />
+		<result property="sex" column="sex" />
+		<result property="birtchday" column="birtchday" />
+		<result property="hobby" column="hobby" />
+		<result property="nickname" column="nickname" />
+		<result property="avatar" column="avatar" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,uid ,sex ,birtchday ,hobby ,nickname ,avatar ,create_time 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{uid},#{sex},#{birtchday},#{hobby},#{nickname},#{avatar},#{createTime}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+		<if test="id != null and id != ''">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+		<if test="uid != null and uid != ''">
+			AND uid = #{uid,jdbcType=BIGINT}
+		</if>
+		<if test="sex != null and sex != ''">
+			AND sex = #{sex,jdbcType=VARCHAR}
+		</if>
+		<if test="birtchday != null and birtchday != ''">
+			AND birtchday = #{birtchday,jdbcType=TIMESTAMP}
+		</if>
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="uid != null">
+			uid = #{uid,jdbcType=BIGINT},
+		</if>
+		<if test="sex != null and sex != ''">
+			sex = #{sex,jdbcType=VARCHAR},
+		</if>
+		<if test="birtchday != null">
+			birtchday = #{birtchday,jdbcType=TIMESTAMP},
+		</if>
+		<if test="hobby != null and hobby != ''">
+			hobby = #{hobby,jdbcType=VARCHAR},
+		</if>
+		<if test="nickname != null and nickname != ''">
+			nickname = #{nickname,jdbcType=VARCHAR},
+		</if>
+		<if test="avatar != null and avatar != ''">
+			avatar = #{avatar,jdbcType=VARCHAR},
+		</if>
+		<if test="createTime != null">
+			create_time = #{createTime,jdbcType=BIGINT},
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="UStudentResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	U_STUDENT
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="UStudentResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	U_STUDENT
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM U_STUDENT
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.UStudent">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT U_STUDENT 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.UStudent">
+		UPDATE	U_STUDENT
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM U_STUDENT
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM U_STUDENT
+		WHERE	ID	IN
+    	<foreach item="UStudentId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{UStudentId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="UStudentResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	U_STUDENT
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="UStudentResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM U_STUDENT
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+</mapper> 

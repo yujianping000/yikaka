@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>关于我们</title>
+<link rel="stylesheet" type="text/css" href="resources/web/css/app2.css">
+</head>
+
+<body>
+<div class="page-about">
+    <div class="page-html" id="htmlview">
+       
+    </div>
+</div>
+	<!-- BEGIN Script -->
+		[#include "/admin/include/script.ftl"]
+	<!-- END Script -->
+    
+    <script>
+    
+        $(document).ready(function () {
+            $.ajax({
+                url: "showRefuseReason.jhtml",
+                type: "GET",
+                data: {id:id},
+                cache: false,
+                async: false,
+                success: function (data) {
+                     var tableCon = $("#htmlview");
+                    tableCon.empty();
+                    tableCon.append(data);
+                }
+            });
+
+        	
+        });  
+</body>
+</html>

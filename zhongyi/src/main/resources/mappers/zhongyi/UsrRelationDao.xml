@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.UsrRelationDao">
+	
+	<resultMap id="UsrRelationResultMap" type="com.framework.loippi.entity.UsrRelation">
+		<id property="id" column="id"  />
+		<result property="uid" column="uid" />
+		<result property="destUid" column="dest_uid" />
+		<result property="createTime" column="create_time" />
+		<result property="destName" column="dest_name" />
+		<result property="destAvatar" column="dest_avatar" />
+		<result property="destFirstName" column="dest_first_name" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,uid ,dest_uid ,create_time ,dest_name ,dest_avatar ,dest_first_name 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{uid},#{destUid},#{createTime},#{destName},#{destAvatar},#{destFirstName}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="uid != null ">
+			AND uid = #{uid,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="destUid != null ">
+			AND dest_uid = #{destUid,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="createTime != null ">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="destName != null ">
+			AND dest_name = #{destName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="destAvatar != null ">
+			AND dest_avatar = #{destAvatar,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="destFirstName != null ">
+			AND dest_first_name = #{destFirstName,jdbcType=VARCHAR}
+		</if>
+	
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="uid != null ">
+			uid = #{uid,jdbcType=BIGINT},
+		</if>
+		<if test="destUid != null ">
+			dest_uid = #{destUid,jdbcType=BIGINT},
+		</if>
+		<if test="createTime != null ">
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="destName != null ">
+			dest_name = #{destName,jdbcType=VARCHAR},
+		</if>
+		<if test="destAvatar != null ">
+			dest_avatar = #{destAvatar,jdbcType=VARCHAR},
+		</if>
+		<if test="destFirstName != null ">
+			dest_first_name = #{destFirstName,jdbcType=VARCHAR},
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="UsrRelationResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_USR_RELATION
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="UsrRelationResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_USR_RELATION
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_USR_RELATION
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.UsrRelation">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_USR_RELATION 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.UsrRelation">
+		UPDATE	T_USR_RELATION
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_USR_RELATION
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_USR_RELATION
+		WHERE	ID	IN
+    	<foreach item="UsrRelationId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{UsrRelationId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="UsrRelationResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_USR_RELATION
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+		<!--查找所有首字母-->
+	<select id="findListFirstName" resultType="String">
+	 SELECT DISTINCT(dest_first_name) from t_usr_relation WHERE dest_first_name is not null and uid = #{uid,jdbcType=BIGINT} ORDER  BY convert(dest_first_name using gbk) asc
+	</select>
+	
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="UsrRelationResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_USR_RELATION
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="UsrRelationResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_USR_RELATION
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 

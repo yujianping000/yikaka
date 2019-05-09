@@ -1,0 +1,385 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.TSalaryLogDao">
+	
+	<resultMap id="TSalaryLogResultMap" type="com.framework.loippi.entity.TSalaryLog">
+		<id property="id" column="id"  />
+		<result property="uid" column="uid" />
+		<result property="orgId" column="org_id" />
+		<result property="basicSalary" column="basic_salary" />
+		<result property="courseSalary" column="course_salary" />
+		<result property="performanceSalary" column="performance_salary" />
+		<result property="allTsutomu" column="all_tsutomu" />
+		<result property="bonus" column="bonus" />
+		<result property="pushMoney" column="push_money" />
+		<result property="reimburse" column="reimburse" />
+		<result property="other" column="other" />
+		<result property="createTime" column="create_time" />
+		<result property="payTime" column="pay_time" />
+		<result property="status" column="status" />
+		<result property="account" column="account" />
+		<result property="userName" column="user_name" />
+		<result property="totalSalary" column="total_salary" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,uid ,org_id ,basic_salary ,course_salary ,performance_salary ,all_tsutomu ,bonus ,push_money ,reimburse ,other ,create_time ,pay_time ,status ,account ,user_name ,total_salary 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{uid},#{orgId},#{basicSalary},#{courseSalary},#{performanceSalary},#{allTsutomu},#{bonus},#{pushMoney},#{reimburse},#{other},#{createTime},#{payTime},#{status},#{account},#{userName},#{totalSalary}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="uid != null ">
+			AND uid = #{uid,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="basicSalary != null ">
+			AND basic_salary = #{basicSalary,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="courseSalary != null ">
+			AND course_salary = #{courseSalary,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="performanceSalary != null ">
+			AND performance_salary = #{performanceSalary,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="allTsutomu != null ">
+			AND all_tsutomu = #{allTsutomu,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="bonus != null ">
+			AND bonus = #{bonus,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="pushMoney != null ">
+			AND push_money = #{pushMoney,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="reimburse != null ">
+			AND reimburse = #{reimburse,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="other != null ">
+			AND other = #{other,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="createTime != null ">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="payTime != null ">
+			AND pay_time = #{payTime,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="status != null ">
+			AND status = #{status,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="account != null ">
+			AND account = #{account,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="userName != null ">
+			AND user_name = #{userName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="totalSalary != null ">
+			AND total_salary = #{totalSalary,jdbcType=DECIMAL}
+		</if>
+	
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="uid != null ">
+			uid = #{uid,jdbcType=BIGINT},
+		</if>
+		<if test="orgId != null ">
+			org_id = #{orgId,jdbcType=BIGINT},
+		</if>
+		<if test="basicSalary != null ">
+			basic_salary = #{basicSalary,jdbcType=DECIMAL},
+		</if>
+		<if test="courseSalary != null ">
+			course_salary = #{courseSalary,jdbcType=DECIMAL},
+		</if>
+		<if test="performanceSalary != null ">
+			performance_salary = #{performanceSalary,jdbcType=DECIMAL},
+		</if>
+		<if test="allTsutomu != null ">
+			all_tsutomu = #{allTsutomu,jdbcType=DECIMAL},
+		</if>
+		<if test="bonus != null ">
+			bonus = #{bonus,jdbcType=DECIMAL},
+		</if>
+		<if test="pushMoney != null ">
+			push_money = #{pushMoney,jdbcType=DECIMAL},
+		</if>
+		<if test="reimburse != null ">
+			reimburse = #{reimburse,jdbcType=DECIMAL},
+		</if>
+		<if test="other != null ">
+			other = #{other,jdbcType=DECIMAL},
+		</if>
+		<if test="createTime != null ">
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="payTime != null ">
+			pay_time = #{payTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="status != null ">
+			status = #{status,jdbcType=INTEGER},
+		</if>
+		<if test="account != null ">
+			account = #{account,jdbcType=VARCHAR},
+		</if>
+		<if test="userName != null ">
+			user_name = #{userName,jdbcType=VARCHAR},
+		</if>
+		<if test="totalSalary != null ">
+			total_salary = #{totalSalary,jdbcType=DECIMAL},
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="TSalaryLogResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_SALARY_LOG
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="TSalaryLogResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_SALARY_LOG
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_SALARY_LOG
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.TSalaryLog">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_SALARY_LOG 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.TSalaryLog">
+		UPDATE	T_SALARY_LOG
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_SALARY_LOG
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_SALARY_LOG
+		WHERE	ID	IN
+    	<foreach item="TSalaryLogId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{TSalaryLogId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="TSalaryLogResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_SALARY_LOG
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="TSalaryLogResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_SALARY_LOG
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="TSalaryLogResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_SALARY_LOG
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+		order by  id desc
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	   <!-- 获取用户评论的平均值-->
+       <select id="getStarts" resultType="string">
+				SELECT
+				FORMAT(SUM(fav_star) / COUNT(id), 1) AS score
+			FROM
+				t_teacher_comment
+			WHERE
+				org_id = #{orgId,jdbcType=BIGINT}
+			AND comment_type = 1
+			and teacher_id= #{teacherId,jdbcType=BIGINT}
+			AND DATE_FORMAT(
+				date_sub(now(), INTERVAL 1 DAY),
+				'%Y%m'
+			) = DATE_FORMAT(create_date, '%Y%m')
+	</select>
+	<!-- 获取评论的绩效-->
+	 <select id="getCommentSum" resultType="double">
+SELECT SUM(account)as commentSum from t_tcomment_scope where ${starts} <![CDATA[   >=  ]]>mix and ${starts} <![CDATA[ <=  ]]> max  and org_id= #{orgId,jdbcType=BIGINT} and uid= #{teacherId,jdbcType=BIGINT}
+</select>
+	<!-- 获取点评率的绩效-->
+	 <select id="getRemarkOnSum" resultType="double">
+SELECT SUM(account)as commentSum from t_tremark_on where ${commentRate} <![CDATA[   >=  ]]>mix and ${commentRate} <![CDATA[ <=  ]]> max  and org_id= #{orgId,jdbcType=BIGINT} and uid= #{teacherId,jdbcType=BIGINT}
+</select>
+	<!-- 获取续班的绩效-->
+	 <select id="getconOnSum" resultType="double">
+SELECT SUM(account)as commentSum from t_tcontinue_class where ${conScore} <![CDATA[   >=  ]]>mix and ${conScore} <![CDATA[ <=  ]]> max  and org_id= #{orgId,jdbcType=BIGINT} and uid= #{teacherId,jdbcType=BIGINT}
+</select>
+<!-- 应该评论的数-->
+ <select id="getCountOrder" resultType="int">
+SELECT
+	COUNT(*)
+FROM
+	t_course_stu_time tcst,
+	t_order tor
+WHERE
+	tor.teacher_id = #{teacherId,jdbcType=BIGINT}
+AND tor.id = tcst.order_id
+and tor.org_id=#{orgId,jdbcType=BIGINT}
+AND DATE_FORMAT(
+	date_sub(now(), INTERVAL 1 DAY),
+	'%Y%m'
+) = DATE_FORMAT(tor.pay_time, '%Y%m')
+AND tcst.`status` = 2
+</select>
+<!-- 实际评论的数-->
+ <select id="getCountComment" resultType="int">
+ SELECT
+				COUNT(id)
+			FROM
+				t_teacher_comment
+			WHERE
+				org_id =#{orgId,jdbcType=BIGINT}
+			AND comment_type = 1
+			and teacher_id=  #{teacherId,jdbcType=BIGINT}
+			AND DATE_FORMAT(
+				date_sub(now(), INTERVAL 1 DAY),
+				'%Y%m'
+			) = DATE_FORMAT(create_date, '%Y%m')
+ </select>
+ 
+ <!-- 实际上的课时-->
+ <select id="getCountTime" resultType="int">
+ SELECT
+	COUNT(*)
+FROM
+	t_course_tea_time
+WHERE
+	teacher_id =#{teacherId,jdbcType=BIGINT}
+AND org_id = #{orgId,jdbcType=BIGINT}
+AND `status` IN (1, 3)
+AND DATE_FORMAT(
+	date_sub(now(), INTERVAL 1 DAY),
+	'%Y%m'
+) = DATE_FORMAT(create_time, '%Y%m')
+ </select>
+  <!-- 订单总金额-->
+ <select id="getTotal"  resultType="decimal">
+ SELECT SUM(payment) from t_order where org_id=#{orgId,jdbcType=BIGINT} and teacher_id=#{teacherId,jdbcType=BIGINT} and `status` in(2,3,8)
+  </select>
+    <!-- 续班-->
+   <select id="getcontinueclasTotal"  resultType="int">
+  SELECT
+	COUNT(*)
+FROM
+	t_order
+WHERE
+  continueclass=1 and
+	org_id =#{orgId,jdbcType=BIGINT} and teacher_id=#{teacherId,jdbcType=BIGINT} and `status` in(2,3,8) 
+	  </select>
+	  <!-- 订单总数-->
+   <select id="getOrderTotal"  resultType="int">
+  SELECT
+	COUNT(*)
+FROM
+	t_order
+WHERE
+  continueclass=1 and
+	org_id =#{orgId,jdbcType=BIGINT} and teacher_id=#{teacherId,jdbcType=BIGINT} and `status` in(2,3,8) 
+	  </select>
+	  	  <!-- 工资总数-->
+   <select id="getSalaryTotal"  resultType="decimal">
+	  SELECT
+	SUM(
+		basic_salary + course_salary + performance_salary + all_tsutomu + bonus + push_money + reimburse + other
+	)
+FROM
+	t_salary_log
+WHERE
+	org_id = #{orgId,jdbcType=BIGINT}
+AND uid = #{uid,jdbcType=BIGINT}
+AND id= #{id,jdbcType=BIGINT}
+  </select>
+</mapper> 

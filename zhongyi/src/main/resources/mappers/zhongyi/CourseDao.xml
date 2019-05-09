@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.CourseDao">
+	
+	<resultMap id="CourseResultMap" type="com.framework.loippi.entity.Course">
+		<id property="id" column="id"  />
+		<result property="name" column="name" />
+		<result property="image" column="image" />
+		<result property="description" column="description" />
+		<result property="orgId" column="org_id" />
+		<result property="uid" column="uid" />
+		<result property="favCount" column="fav_count" />
+		<result property="replyCount" column="reply_count" />
+		<result property="createDate" column="create_date" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="substitute" column="substitute" />
+		<result property="assistant" column="assistant" />
+		<result property="type" column="type" />
+		<result property="price" column="price" />
+		<result property="buySum" column="buy_sum" />
+		<result property="freez" column="freez" />
+		<result property="totalSum" column="total_sum" />
+		<result property="praper" column="praper" />
+		<result property="status" column="status" />
+		<result property="classId" column="class_id" />
+		<result property="periodsDesc" column="periods_desc" />
+		<result property="orgname" column="orgname" />
+		<result property="orderId" column="order_id" />
+		<result property="term" column="term" />
+			<result property="periods" column="periods" />
+			
+		<result property="substituteName" column="substitute_name" />
+		<result property="substituteType" column="substitute_type" />
+		<result property="courseType" column="course_type" />
+		
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,name ,image ,description ,org_id ,uid ,fav_count ,reply_count 
+		 ,create_date ,teacher_id ,substitute ,assistant ,type ,price ,buy_sum 
+		 ,freez ,total_sum ,praper ,status ,class_id ,periods_desc ,orgname  ,order_id ,term ,periods
+		 ,substitute_name , substitute_type ,course_type
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{name},#{image},#{description},#{orgId},#{uid},#{favCount},
+		 #{replyCount},#{createDate},#{teacherId},#{substitute},#{assistant}
+		 ,#{type},#{price},#{buySum},#{freez},#{totalSum},#{praper},#{status}
+		 ,#{classId},#{periodsDesc},#{orgname},#{orderId},#{term},#{periods}
+		 ,#{substituteName},#{substituteType},#{courseType}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+			<if test="orgname != null ">
+			AND orgname = #{orgname,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="name != null ">
+			AND name = #{name,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="image != null ">
+			AND image = #{image,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="description != null ">
+			AND description = #{description,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="uid != null ">
+			AND uid = #{uid,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="favCount != null ">
+			AND fav_count = #{favCount,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="replyCount != null ">
+			AND reply_count = #{replyCount,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="createDate != null ">
+			AND create_date = #{createDate,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="teacherId != null ">
+			AND teacher_id = #{teacherId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="substitute != null ">
+			AND substitute = #{substitute,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="assistant != null ">
+			AND assistant = #{assistant,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="type != null ">
+			AND type = #{type,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="price != null ">
+			AND price = #{price,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="buySum != null ">
+			AND buy_sum = #{buySum,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="freez != null ">
+			AND freez = #{freez,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="totalSum != null ">
+			AND total_sum = #{totalSum,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="praper != null ">
+			AND praper = #{praper,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="status != null ">
+			AND status = #{status,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="classId != null ">
+			AND class_id = #{classId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="periodsDesc != null ">
+			AND periods_desc = #{periodsDesc,jdbcType=VARCHAR}
+		</if>
+		<if test="orderId != null ">
+			AND order_id = #{orderId,jdbcType=BIGINT}
+		</if>
+		
+		<if test="namelike != null ">
+		AND  name <![CDATA[ like '%${namelike}%' ]]>
+	
+		</if>
+		
+		<if test="term != null ">
+			AND term = #{term,jdbcType=INTEGER}
+		</if>
+		
+		
+			<if test="periods != null ">
+			AND periods = #{periods,jdbcType=INTEGER}
+		</if>
+		
+		<if test="substituteName != null ">
+			AND substitute_name = #{substituteName,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="substituteType != null ">
+			AND substitute_type = #{substituteType,jdbcType=INTEGER}
+		</if>
+		
+		<if test="courseType != null ">
+			AND course_type = #{courseType,jdbcType=VARCHAR}
+		</if>
+		
+				<if test="filter_name != null">
+			AND name like CONCAT('%','${filter_name}','%')
+		</if>
+		
+		<if test="filter_orgname != null">
+			AND orgname like CONCAT('%','${filter_orgname}','%')
+		</if>
+		<if test="filter_teachername != null">
+			AND description like CONCAT('%','${filter_teachername}','%')
+		</if>
+		
+
+	
+		
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="orgname != null ">
+			 orgname = #{orgname,jdbcType=VARCHAR},
+		</if>
+	
+		<if test="name != null ">
+			name = #{name,jdbcType=VARCHAR},
+		</if>
+		<if test="image != null ">
+			image = #{image,jdbcType=VARCHAR},
+		</if>
+		<if test="description != null ">
+			description = #{description,jdbcType=VARCHAR},
+		</if>
+		<if test="orgId != null ">
+			org_id = #{orgId,jdbcType=BIGINT},
+		</if>
+		<if test="uid != null ">
+			uid = #{uid,jdbcType=BIGINT},
+		</if>
+		<if test="favCount != null ">
+			fav_count = #{favCount,jdbcType=INTEGER},
+		</if>
+		<if test="replyCount != null ">
+			reply_count = #{replyCount,jdbcType=INTEGER},
+		</if>
+		<if test="createDate != null ">
+			create_date = #{createDate,jdbcType=TIMESTAMP},
+		</if>
+		<if test="teacherId != null ">
+			teacher_id = #{teacherId,jdbcType=BIGINT},
+		</if>
+		<if test="substitute != null ">
+			substitute = #{substitute,jdbcType=BIGINT},
+		</if>
+		<if test="assistant != null ">
+			assistant = #{assistant,jdbcType=BIGINT},
+		</if>
+		<if test="type != null ">
+			type = #{type,jdbcType=INTEGER},
+		</if>
+		<if test="price != null ">
+			price = #{price,jdbcType=DECIMAL},
+		</if>
+		<if test="buySum != null ">
+			buy_sum = #{buySum,jdbcType=INTEGER},
+		</if>
+		<if test="freez != null ">
+			freez = #{freez,jdbcType=INTEGER},
+		</if>
+		<if test="totalSum != null ">
+			total_sum = #{totalSum,jdbcType=INTEGER},
+		</if>
+		<if test="praper != null ">
+			praper = #{praper,jdbcType=INTEGER},
+		</if>
+		<if test="status != null ">
+			status = #{status,jdbcType=INTEGER},
+		</if>
+		<if test="classId != null ">
+			class_id = #{classId,jdbcType=BIGINT},
+		</if>
+		<if test="periodsDesc != null ">
+			periods_desc = #{periodsDesc,jdbcType=VARCHAR},
+		</if>
+		<if test="orderId != null ">
+			order_id = #{orderId,jdbcType=BIGINT},
+		</if>
+		<if test="term != null ">
+			 term = #{term,jdbcType=INTEGER},
+		</if>
+		<if test="periods != null ">
+			 periods = #{periods,jdbcType=INTEGER},
+		</if>
+		<if test="substituteName != null ">
+			 substitute_name = #{substituteName,jdbcType=VARCHAR},
+		</if>
+		<if test="substituteType != null ">
+			 substitute_type = #{substituteType,jdbcType=INTEGER},
+		</if>
+		<if test="courseType != null ">
+			 course_type = #{courseType,jdbcType=VARCHAR}
+		</if>
+		
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="CourseResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_COURSE
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="CourseResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_COURSE
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_COURSE
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.Course">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_COURSE 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.Course">
+		UPDATE	T_COURSE
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_COURSE
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_COURSE
+		WHERE	ID	IN
+    	<foreach item="CourseId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{CourseId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="CourseResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_COURSE
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="CourseResultMap">
+SELECT * from(
+select t_course.`name` ,t_course.type,t_course.id,t_course.price
+,t_course.`status`,t1.account image,t1.nickname description,t2.`name` orgname ,t_course.org_id ,t_course.term ,t_course.create_date from 
+t_course
+
+left join t_teacher t1
+on t_course.teacher_id =  t1.id
+
+left join t_orgnization t2
+on t_course.org_id =  t2.id)t
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="CourseResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_COURSE
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+	 <!-- 分页查询-->
+       <select id="findAvg" resultMap="CourseResultMap">
+		SELECT AVG(t_course_comment.fav_star) name,count(id) fav_star
+FROM t_course_comment
+		<where> 1=1
+		   AND status =1
+			     <if test="courseId != null">
+			and	course_id = #{courseId,jdbcType=BIGINT}
+			     </if>
+			 <if test="orgId != null">
+			and	org_id = #{orgId,jdbcType=BIGINT}
+			     </if>
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+       <select id="findMyListByPage" resultMap="CourseResultMap">
+		SELECT
+			T_COURSE.id ,T_COURSE.name ,T_COURSE.image 
+			,T_COURSE.description ,T_COURSE.org_id ,T_ORDER.stu_id uid ,T_COURSE.fav_count 
+			,T_COURSE.reply_count 
+		 ,T_COURSE.create_date ,T_COURSE.teacher_id ,T_COURSE.substitute ,T_COURSE.assistant 
+		 ,T_COURSE.type ,T_COURSE.price ,T_COURSE.buy_sum 
+		 ,T_COURSE.freez , T_ORDER.classtimes total_sum,T_COURSE.praper ,T_COURSE.status 
+		 ,T_COURSE.class_id ,T_COURSE.periods_desc ,T_COURSE.orgname ,T_ORDER.id order_id
+		FROM T_COURSE,T_ORDER
+		<where> 1=1
+			<include refid="where_column" />
+			
+		and	T_COURSE.id=T_ORDER.target_id and T_ORDER.type=1  and T_ORDER.status in(2,3,8)
+		AND T_ORDER.uid = #{orderuid,jdbcType=BIGINT}
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+	
+		<!-- 报名课程-->
+	<update id="update2buyCourse">
+			UPDATE	T_COURSE 
+		<set>
+			
+			buy_sum =buy_sum+1,
+			freez =freez-1,
+		
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}  and <![CDATA[(freez is null or freez>0) ]]>   
+	</update>
+	
+	<!--查询机构下的所有课程类型  -->
+	<select id="findCoourseTypeByOrgId" resultMap="CourseResultMap">
+		SELECT DISTINCT
+		t_course.course_type
+	FROM
+		t_course
+	WHERE
+		t_course.org_id = #{orgId,jdbcType=BIGINT}
+	</select>
+	
+	<!--查询课程所属的机构  -->
+	<select id="findOrgIdByCourseId" resultMap="CourseResultMap">
+		SELECT DISTINCT
+		t_course.org_id
+	FROM
+		t_course
+	WHERE
+		t_course.id = #{id,jdbcType=BIGINT}
+	</select>
+	
+</mapper> 

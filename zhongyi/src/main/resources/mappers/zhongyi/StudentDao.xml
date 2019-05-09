@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.StudentDao">
+	
+	<resultMap id="StudentResultMap" type="com.framework.loippi.entity.Student">
+		<id property="id" column="id"  />
+		<result property="uid" column="uid" />
+		<result property="sex" column="sex" />
+		<result property="birtchday" column="birtchday" />
+		<result property="hobby" column="hobby" />
+		<result property="nickname" column="nickname" />
+		<result property="avatar" column="avatar" />
+		<result property="createTime" column="create_time" />
+		
+		<result property="account" column="account" />
+		<result property="pnickname" column="pnickname" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,uid ,sex ,birtchday ,hobby ,nickname ,avatar ,create_time ,account ,pnickname
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{uid},#{sex},#{birtchday},#{hobby},#{nickname},#{avatar},#{createTime},#{account},#{pnickname}
+	</sql>
+	
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="uid != null ">
+			AND uid = #{uid,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="sex != null ">
+			AND sex = #{sex,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="birtchday != null ">
+			AND birtchday = #{birtchday,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="hobby != null ">
+			AND hobby = #{hobby,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="nickname != null ">
+			AND nickname = #{nickname,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="avatar != null ">
+			AND avatar = #{avatar,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="createTime != null ">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+		
+		<if test="studentIds != null ">
+			AND id 	IN
+    	<foreach item="studentId" index="index" collection="studentIds" open="(" separator="," close=")">
+	  		#{studentId} 
+		</foreach>
+		</if>
+		
+		
+		<if test="createTime != null ">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+		
+		<if test="account != null ">
+			AND account = #{account,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="pnickname != null ">
+			AND pnickname = #{pnickname,jdbcType=VARCHAR}
+		</if>
+
+		
+		<!-- 页面搜索条件 -->
+		<!-- 模糊查询条件 -->
+		<if test="filter_account != null">
+			AND account like CONCAT('%','${filter_account}','%')
+		</if>
+		
+		<if test="filter_nickname != null">
+			AND nickname like CONCAT('%','${filter_nickname}','%')
+		</if>
+		
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="uid != null ">
+			uid = #{uid,jdbcType=BIGINT},
+		</if>
+		<if test="sex != null ">
+			sex = #{sex,jdbcType=VARCHAR},
+		</if>
+		<if test="birtchday != null ">
+			birtchday = #{birtchday,jdbcType=TIMESTAMP},
+		</if>
+		<if test="hobby != null ">
+			hobby = #{hobby,jdbcType=VARCHAR},
+		</if>
+		<if test="nickname != null ">
+			nickname = #{nickname,jdbcType=VARCHAR},
+		</if>
+		<if test="avatar != null ">
+			avatar = #{avatar,jdbcType=VARCHAR},
+		</if>
+		<if test="createTime != null ">
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+		</if>
+		
+		<if test="account != null ">
+			account = #{account,jdbcType=VARCHAR},
+		</if>
+		<if test="pnickname != null ">
+			pnickname = #{pnickname,jdbcType=VARCHAR},
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="StudentResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_STUDENT
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!--   查询学生id  -->
+	<select id="getById"  resultType="long">
+		SELECT id
+		FROM T_STUDENT
+		<!-- <where>
+			<if test="_parameter != null" >
+				account = #{account,jdbcType=VARCHAR},
+			</if>
+		</where> -->
+		WHERE account = #{account,jdbcType=VARCHAR}
+	</select>
+	
+	
+	
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="StudentResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_STUDENT
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_STUDENT
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.Student">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_STUDENT 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.Student">
+		UPDATE	T_STUDENT
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_STUDENT
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_STUDENT
+		WHERE	ID	IN
+    	<foreach item="StudentId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{StudentId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="StudentResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_STUDENT
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="StudentResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_STUDENT
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="StudentResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_STUDENT
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+	
+		<!--根据机构id查询学生信息  -->
+		<select id="findStudentListByOrgId" resultMap="StudentResultMap">
+		
+			SELECT
+				*
+			FROM
+				t_student
+			WHERE
+				t_student.id IN (
+					SELECT
+						t_org_user.uid
+					FROM
+						t_org_user
+					WHERE
+						t_org_user.org_id = ${orgId}
+						AND t_org_user.type = 1
+				) 
+				<include refid="where_column" />
+		</select>
+	
+</mapper> 

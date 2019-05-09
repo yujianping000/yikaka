@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.TattendaanceCountDao">
+	
+	<resultMap id="TattendaanceCountResultMap" type="com.framework.loippi.entity.TattendaanceCount">
+		<result property="id" column="id" />
+		<result property="attendanceCount" column="attendance_count" />
+		<result property="advanceMinute" column="advance_minute" />
+		<result property="lateMinute1" column="late_minute1" />
+		<result property="deduct1" column="deduct1" />
+		<result property="maxDeduct1" column="max_deduct1" />
+		<result property="lateMinute2" column="late_minute2" />
+		<result property="deduct2" column="deduct2" />
+		<result property="uid" column="uid" />
+			<result property="orgId" column="org_id" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,attendance_count ,advance_minute ,late_minute1 ,deduct1 ,max_deduct1 ,late_minute2 ,deduct2 ,uid, org_id
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{attendanceCount},#{advanceMinute},#{lateMinute1},#{deduct1},#{maxDeduct1},#{lateMinute2},#{deduct2},#{uid},#{orgId}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="attendanceCount != null ">
+			AND attendance_count = #{attendanceCount,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="advanceMinute != null ">
+			AND advance_minute = #{advanceMinute,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="lateMinute1 != null ">
+			AND late_minute1 = #{lateMinute1,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="deduct1 != null ">
+			AND deduct1 = #{deduct1,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="maxDeduct1 != null ">
+			AND max_deduct1 = #{maxDeduct1,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="lateMinute2 != null ">
+			AND late_minute2 = #{lateMinute2,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="deduct2 != null ">
+			AND deduct2 = #{deduct2,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="uid != null ">
+			AND uid = #{uid,jdbcType=BIGINT}
+		</if>
+		
+				<if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+	
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="attendanceCount != null ">
+			attendance_count = #{attendanceCount,jdbcType=VARCHAR},
+		</if>
+		<if test="advanceMinute != null ">
+			advance_minute = #{advanceMinute,jdbcType=INTEGER},
+		</if>
+		<if test="lateMinute1 != null ">
+			late_minute1 = #{lateMinute1,jdbcType=INTEGER},
+		</if>
+		<if test="deduct1 != null ">
+			deduct1 = #{deduct1,jdbcType=DECIMAL},
+		</if>
+		<if test="maxDeduct1 != null ">
+			max_deduct1 = #{maxDeduct1,jdbcType=DECIMAL},
+		</if>
+		<if test="lateMinute2 != null ">
+			late_minute2 = #{lateMinute2,jdbcType=INTEGER},
+		</if>
+		<if test="deduct2 != null ">
+			deduct2 = #{deduct2,jdbcType=DECIMAL},
+		</if>
+		<if test="uid != null ">
+			uid = #{uid,jdbcType=BIGINT},
+		</if>
+			<if test="orgId != null ">
+			 org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="TattendaanceCountResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_TATTENDAANCE_COUNT
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="TattendaanceCountResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_TATTENDAANCE_COUNT
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_TATTENDAANCE_COUNT
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.TattendaanceCount">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_TATTENDAANCE_COUNT 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.TattendaanceCount">
+		UPDATE	T_TATTENDAANCE_COUNT
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_TATTENDAANCE_COUNT
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_TATTENDAANCE_COUNT
+		WHERE	ID	IN
+    	<foreach item="TattendaanceCountId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{TattendaanceCountId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="TattendaanceCountResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_TATTENDAANCE_COUNT
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="TattendaanceCountResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_TATTENDAANCE_COUNT
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="TattendaanceCountResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_TATTENDAANCE_COUNT
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 

@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.TeacherAuthDao">
+	
+	<resultMap id="TeacherAuthResultMap" type="com.framework.loippi.entity.TeacherAuth">
+		<id property="id" column="id"  />
+		<result property="orgId" column="org_id" />
+		<result property="name" column="name" />
+		<result property="birthday" column="birthday" />
+		<result property="type" column="type" />
+		<result property="sex" column="sex" />
+		<result property="idCard" column="id_card" />
+		<result property="teacherCard" column="teacher_card" />
+		<result property="educationCard" column="education_card" />
+		<result property="qlCard" column="ql_card" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="status" column="status" />
+		<result property="reason" column="reason" />
+		<result property="isRead" column="is_read" />
+		<result property="account" column="account" />
+		
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,org_id ,name ,birthday ,type ,sex ,id_card ,teacher_card ,education_card ,ql_card ,create_time ,update_time ,teacher_id ,status ,reason ,is_read,account 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{orgId},#{name},#{birthday},#{type},#{sex},#{idCard},#{teacherCard},#{educationCard},#{qlCard},#{createTime},#{updateTime},#{teacherId},#{status},#{reason},#{isRead},#{account}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="name != null ">
+			AND name  like  '%${name}%' 
+		</if>
+		
+		<if test="account != null ">
+			AND account  like  '%${account}%' 
+		</if>
+	
+	
+
+		<if test="birthday != null ">
+			AND birthday = #{birthday,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="type != null ">
+			AND type = #{type,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="sex != null ">
+			AND sex = #{sex,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="idCard != null ">
+			AND id_card = #{idCard,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="teacherCard != null ">
+			AND teacher_card = #{teacherCard,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="educationCard != null ">
+			AND education_card = #{educationCard,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="qlCard != null ">
+			AND ql_card = #{qlCard,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="createTime != null ">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="updateTime != null ">
+			AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="teacherId != null ">
+			AND teacher_id = #{teacherId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="status != null ">
+			AND status = #{status,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="reason != null ">
+			AND reason = #{reason,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="isRead != null ">
+			AND is_read = #{isRead,jdbcType=INTEGER}
+		</if>
+		
+		
+	
+	
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="orgId != null ">
+			org_id = #{orgId,jdbcType=BIGINT},
+		</if>
+		<if test="name != null ">
+			name = #{name,jdbcType=VARCHAR},
+		</if>
+			<if test="account != null ">
+			account = #{account,jdbcType=VARCHAR},
+		</if>
+		
+		<if test="birthday != null ">
+			birthday = #{birthday,jdbcType=TIMESTAMP},
+		</if>
+		<if test="type != null ">
+			type = #{type,jdbcType=INTEGER},
+		</if>
+		<if test="sex != null ">
+			sex = #{sex,jdbcType=VARCHAR},
+		</if>
+		<if test="idCard != null ">
+			id_card = #{idCard,jdbcType=VARCHAR},
+		</if>
+		<if test="teacherCard != null ">
+			teacher_card = #{teacherCard,jdbcType=VARCHAR},
+		</if>
+		<if test="educationCard != null ">
+			education_card = #{educationCard,jdbcType=VARCHAR},
+		</if>
+		<if test="qlCard != null ">
+			ql_card = #{qlCard,jdbcType=VARCHAR},
+		</if>
+		<if test="createTime != null ">
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="updateTime != null ">
+			update_time = #{updateTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="teacherId != null ">
+			teacher_id = #{teacherId,jdbcType=BIGINT},
+		</if>
+		<if test="status != null ">
+			status = #{status,jdbcType=INTEGER},
+		</if>
+		<if test="reason != null ">
+			reason = #{reason,jdbcType=VARCHAR},
+		</if>
+		<if test="isRead != null ">
+			is_read = #{isRead,jdbcType=INTEGER},
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="TeacherAuthResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_TEACHER_AUTH
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="TeacherAuthResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_TEACHER_AUTH
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_TEACHER_AUTH
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.TeacherAuth">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_TEACHER_AUTH 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.TeacherAuth">
+		UPDATE	T_TEACHER_AUTH
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_TEACHER_AUTH
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_TEACHER_AUTH
+		WHERE	ID	IN
+    	<foreach item="TeacherAuthId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{TeacherAuthId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="TeacherAuthResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_TEACHER_AUTH
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+			order by id desc
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="TeacherAuthResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_TEACHER_AUTH
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+		
+			order by id desc
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="TeacherAuthResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_TEACHER_AUTH
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	
+		order by id desc
+
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 

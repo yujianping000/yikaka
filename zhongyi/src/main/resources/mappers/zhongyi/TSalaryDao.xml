@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.TSalaryDao">
+	
+	<resultMap id="TSalaryResultMap" type="com.framework.loippi.entity.TSalary">
+		<id property="id" column="id"  />
+		<result property="uid" column="uid" />
+		<result property="orgId" column="org_id" />
+		<result property="basicSalary" column="basic_salary" />
+		<result property="courseSalary" column="course_salary" />
+		<result property="performanceSalary" column="performance_salary" />
+		<result property="allTsutomu" column="all_tsutomu" />
+		<result property="bonus" column="bonus" />
+		<result property="pushMoney" column="push_money" />
+		<result property="reimburse" column="reimburse" />
+		<result property="edit1" column="edit1" />
+		<result property="edit2" column="edit2" />
+		<result property="edit3" column="edit3" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,uid ,org_id ,basic_salary ,course_salary ,performance_salary ,all_tsutomu ,bonus ,push_money ,reimburse ,edit1 ,edit2 ,edit3 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{uid},#{orgId},#{basicSalary},#{courseSalary},#{performanceSalary},#{allTsutomu},#{bonus},#{pushMoney},#{reimburse},#{edit1},#{edit2},#{edit3}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="uid != null ">
+			AND uid = #{uid,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="basicSalary != null ">
+			AND basic_salary = #{basicSalary,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="courseSalary != null ">
+			AND course_salary = #{courseSalary,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="performanceSalary != null ">
+			AND performance_salary = #{performanceSalary,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="allTsutomu != null ">
+			AND all_tsutomu = #{allTsutomu,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="bonus != null ">
+			AND bonus = #{bonus,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="pushMoney != null ">
+			AND push_money = #{pushMoney,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="reimburse != null ">
+			AND reimburse = #{reimburse,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="edit1 != null ">
+			AND edit1 = #{edit1,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="edit2 != null ">
+			AND edit2 = #{edit2,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="edit3 != null ">
+			AND edit3 = #{edit3,jdbcType=DECIMAL}
+		</if>
+	
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="uid != null ">
+			uid = #{uid,jdbcType=BIGINT},
+		</if>
+		<if test="orgId != null ">
+			org_id = #{orgId,jdbcType=BIGINT},
+		</if>
+		<if test="basicSalary != null ">
+			basic_salary = #{basicSalary,jdbcType=DECIMAL},
+		</if>
+		<if test="courseSalary != null ">
+			course_salary = #{courseSalary,jdbcType=DECIMAL},
+		</if>
+		<if test="performanceSalary != null ">
+			performance_salary = #{performanceSalary,jdbcType=DECIMAL},
+		</if>
+		<if test="allTsutomu != null ">
+			all_tsutomu = #{allTsutomu,jdbcType=DECIMAL},
+		</if>
+		<if test="bonus != null ">
+			bonus = #{bonus,jdbcType=DECIMAL},
+		</if>
+		<if test="pushMoney != null ">
+			push_money = #{pushMoney,jdbcType=DECIMAL},
+		</if>
+		<if test="reimburse != null ">
+			reimburse = #{reimburse,jdbcType=DECIMAL},
+		</if>
+		<if test="edit1 != null ">
+			edit1 = #{edit1,jdbcType=DECIMAL},
+		</if>
+		<if test="edit2 != null ">
+			edit2 = #{edit2,jdbcType=DECIMAL},
+		</if>
+		<if test="edit3 != null ">
+			edit3 = #{edit3,jdbcType=DECIMAL},
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="TSalaryResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_SALARY
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="TSalaryResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_SALARY
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_SALARY
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.TSalary">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_SALARY 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.TSalary">
+		UPDATE	T_SALARY
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_SALARY
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_SALARY
+		WHERE	ID	IN
+    	<foreach item="TSalaryId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{TSalaryId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="TSalaryResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_SALARY
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="TSalaryResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_SALARY
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="TSalaryResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_SALARY
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 

@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.TParentDao">
+	
+	<resultMap id="TParentResultMap" type="com.framework.loippi.entity.TParent">
+		<id property="id" column="id"  />
+		<result property="account" column="account" />
+		<result property="password" column="password" />
+		<result property="avatar" column="avatar" />
+		<result property="qqAccount" column="qq_account" />
+		<result property="type" column="type" />
+		<result property="nickName" column="nick_name" />
+		<result property="relName" column="rel_name" />
+		<result property="sex" column="sex" />
+		<result property="createDate" column="create_date" />
+		<result property="status" column="status" />
+		<result property="qqName" column="qq_name" />
+		<result property="weixinAccount" column="weixin_account" />
+		<result property="weixinName" column="weixin_name" />
+		<result property="weixinAvatar" column="weixin_avatar" />
+		<result property="qqAvatar" column="qq_avatar" />
+		<result property="level" column="level" />
+		<result property="firstName" column="first_name" />
+		<result property="uuid" column="uuid" />
+		<result property="growupValue" column="grow_up_value" />
+		<result property="starts" column="starts" />
+		<result property="levelimage" column="levelimage" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,account ,password ,avatar ,qq_account ,type ,nick_name ,rel_name ,sex ,create_date ,status ,qq_name ,weixin_account ,weixin_name ,weixin_avatar ,qq_avatar ,level ,grow_up_value ,starts ,first_name ,uuid ,levelimage 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{account},#{password},#{avatar},#{qqAccount},#{type},#{nickName},#{relName},#{sex},#{createDate},#{status},#{qqName},#{weixinAccount},#{weixinName},#{weixinAvatar},#{qqAvatar},#{level},#{growupValue},#{starts},#{firstName},#{uuid},#{levelimage}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+			<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="account != null ">
+			AND account = #{account,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="password != null ">
+			AND password = #{password,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="avatar != null ">
+			AND avatar = #{avatar,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="qqAccount != null ">
+			AND qq_account = #{qqAccount,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="type != null ">
+			AND type = #{type,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="nickName != null ">
+			AND nick_name = #{nickName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="relName != null ">
+			AND rel_name = #{relName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="sex != null ">
+			AND sex = #{sex,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="createDate != null ">
+			AND create_date = #{createDate,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="status != null ">
+			AND status = #{status,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="qqName != null ">
+			AND qq_name = #{qqName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="weixinAccount != null ">
+			AND weixin_account = #{weixinAccount,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="weixinName != null ">
+			AND weixin_name = #{weixinName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="weixinAvatar != null ">
+			AND weixin_avatar = #{weixinAvatar,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="qqAvatar != null ">
+			AND qq_avatar = #{qqAvatar,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="level != null ">
+			AND level = #{level,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="growupValue != null ">
+			AND grow_up_value = #{growupValue,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="starts != null ">
+			AND starts = #{starts,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="firstName != null ">
+			AND first_name = #{firstName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="uuid != null ">
+			AND uuid = #{uuid,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="levelimage != null ">
+			AND levelimage = #{levelimage,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="account != null ">
+			account = #{account,jdbcType=VARCHAR},
+		</if>
+		<if test="password != null ">
+			password = #{password,jdbcType=VARCHAR},
+		</if>
+		<if test="avatar != null ">
+			avatar = #{avatar,jdbcType=VARCHAR},
+		</if>
+		<if test="qqAccount != null ">
+			qq_account = #{qqAccount,jdbcType=VARCHAR},
+		</if>
+		<if test="type != null ">
+			type = #{type,jdbcType=INTEGER},
+		</if>
+		<if test="nickName != null ">
+			nick_name = #{nickName,jdbcType=VARCHAR},
+		</if>
+		<if test="relName != null ">
+			rel_name = #{relName,jdbcType=VARCHAR},
+		</if>
+		<if test="sex != null ">
+			sex = #{sex,jdbcType=VARCHAR},
+		</if>
+		<if test="createDate != null ">
+			create_date = #{createDate,jdbcType=TIMESTAMP},
+		</if>
+		<if test="status != null ">
+			status = #{status,jdbcType=INTEGER},
+		</if>
+		<if test="qqName != null ">
+			qq_name = #{qqName,jdbcType=VARCHAR},
+		</if>
+		<if test="weixinAccount != null ">
+			weixin_account = #{weixinAccount,jdbcType=VARCHAR},
+		</if>
+		<if test="weixinName != null ">
+			weixin_name = #{weixinName,jdbcType=VARCHAR},
+		</if>
+		<if test="weixinAvatar != null ">
+			weixin_avatar = #{weixinAvatar,jdbcType=VARCHAR},
+		</if>
+		<if test="qqAvatar != null ">
+			qq_avatar = #{qqAvatar,jdbcType=VARCHAR},
+		</if>
+		<if test="level != null ">
+			level = #{level,jdbcType=INTEGER},
+		</if>
+		<if test="growupValue != null ">
+			grow_up_value = #{growupValue,jdbcType=INTEGER},
+		</if>
+		<if test="starts != null ">
+			starts = #{starts,jdbcType=DECIMAL},
+		</if>
+		<if test="firstName != null ">
+			first_name = #{firstName,jdbcType=VARCHAR},
+		</if>
+		<if test="uuid != null ">
+			uuid = #{uuid,jdbcType=VARCHAR},
+		</if>
+		<if test="levelimage != null ">
+			levelimage = #{levelimage,jdbcType=VARCHAR},
+		</if>
+		
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="TParentResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_PARENT
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="TParentResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_PARENT
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_PARENT
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.TParent">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_PARENT 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.TParent">
+		UPDATE	T_PARENT
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_PARENT
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_PARENT
+		WHERE	ID	IN
+    	<foreach item="TParentId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{TParentId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="TParentResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_PARENT
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="TParentResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_PARENT
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="TParentResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_PARENT
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 

@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.CourseMakeupDao">
+	
+	<resultMap id="CourseMakeupResultMap" type="com.framework.loippi.entity.CourseMakeup">
+		<result property="id" column="id" />
+		<result property="studentId" column="student_id" />
+		<result property="parentId" column="parent_id" />
+		<result property="courseId" column="course_id" />
+		<result property="phone" column="phone" />
+		<result property="name" column="name" />
+		<result property="content" column="content" />
+		<result property="createTime" column="create_time" />
+		<result property="account" column="account" />
+		<result property="studentName" column="student_name" />
+		<result property="sex" column="sex" />
+		<result property="birtchday" column="birtchday" />
+		<result property="courseName" column="course_name" />
+		<result property="remark" column="remark" />
+		<result property="orgId" column="org_id" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,student_id ,parent_id ,course_id ,phone ,name ,content ,create_time ,account ,student_name ,sex ,birtchday ,course_name ,remark ,org_id 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{studentId},#{parentId},#{courseId},#{phone},#{name},#{content},#{createTime},#{account},#{studentName},#{sex},#{birtchday},#{courseName},#{remark},#{orgId}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="studentId != null ">
+			AND student_id = #{studentId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="parentId != null ">
+			AND parent_id = #{parentId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="courseId != null ">
+			AND course_id = #{courseId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="phone != null ">
+			AND phone = #{phone,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="name != null ">
+			AND name = #{name,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="content != null ">
+			AND content = #{content,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="createTime != null ">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="account != null ">
+			AND account = #{account,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="studentName != null ">
+			AND student_name = #{studentName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="sex != null ">
+			AND sex = #{sex,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="birtchday != null ">
+			AND birtchday = #{birtchday,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="courseName != null ">
+			AND course_name = #{courseName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="remark != null ">
+			AND remark = #{remark,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+		
+		<!-- 页面搜索条件 -->
+		<!-- 模糊查询条件 -->
+		<if test="filter_account != null">
+			AND account like CONCAT('%','${filter_account}','%')
+		</if>
+		
+		<if test="filter_courseName != null">
+			AND course_name like CONCAT('%','${filter_courseName}','%')
+		</if>
+		
+		<!-- 页面时间搜索条件  -->
+
+		
+		<if test="filter_sDate != null">
+			  AND  date_format(create_time,'%Y%m%d')<![CDATA[>=]]>${filter_sDate}
+		</if>
+		
+		<if test=" filter_eDate != null">
+			  AND  date_format(create_time,'%Y%m%d')<![CDATA[<=]]>${filter_eDate}
+		</if>
+	
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="studentId != null ">
+			student_id = #{studentId,jdbcType=BIGINT},
+		</if>
+		<if test="parentId != null ">
+			parent_id = #{parentId,jdbcType=BIGINT},
+		</if>
+		<if test="courseId != null ">
+			course_id = #{courseId,jdbcType=BIGINT},
+		</if>
+		<if test="phone != null ">
+			phone = #{phone,jdbcType=VARCHAR},
+		</if>
+		<if test="name != null ">
+			name = #{name,jdbcType=VARCHAR},
+		</if>
+		<if test="content != null ">
+			content = #{content,jdbcType=VARCHAR},
+		</if>
+		<if test="createTime != null ">
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="account != null ">
+			account = #{account,jdbcType=VARCHAR},
+		</if>
+		<if test="studentName != null ">
+			student_name = #{studentName,jdbcType=VARCHAR},
+		</if>
+		<if test="sex != null ">
+			sex = #{sex,jdbcType=VARCHAR},
+		</if>
+		<if test="birtchday != null ">
+			birtchday = #{birtchday,jdbcType=TIMESTAMP},
+		</if>
+		<if test="courseName != null ">
+			course_name = #{courseName,jdbcType=VARCHAR},
+		</if>
+		<if test="remark != null ">
+			remark = #{remark,jdbcType=VARCHAR},
+		</if>
+		<if test="orgId != null ">
+			org_id = #{orgId,jdbcType=BIGINT},
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="CourseMakeupResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_COURSE_MAKEUP
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="CourseMakeupResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_COURSE_MAKEUP
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_COURSE_MAKEUP
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.CourseMakeup">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_COURSE_MAKEUP 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.CourseMakeup">
+		UPDATE	T_COURSE_MAKEUP
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_COURSE_MAKEUP
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_COURSE_MAKEUP
+		WHERE	ID	IN
+    	<foreach item="CourseMakeupId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{CourseMakeupId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="CourseMakeupResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_COURSE_MAKEUP
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="CourseMakeupResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_COURSE_MAKEUP
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="CourseMakeupResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_COURSE_MAKEUP
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 

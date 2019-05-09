@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.TSignDao">
+	
+	<resultMap id="TSignResultMap" type="com.framework.loippi.entity.TSign">
+		<result property="id" column="id" />
+		<result property="uid" column="uid" />
+		<result property="location" column="location" />
+		<result property="markTime" column="mark_time" />
+		<result property="orgId" column="org_id" />
+			<result property="markTime1" column="mark_time1" />
+			<result property="hourId" column="hour_id" /> 
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,uid ,location ,mark_time ,org_id,mark_time1,hour_id
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{uid},#{location},#{markTime},#{orgId},#{markTime1},#{hourId}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="uid != null ">
+			AND uid = #{uid,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="location != null ">
+			AND location = #{location,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="markTime != null ">
+			AND mark_time = #{markTime,jdbcType=TIMESTAMP}
+		</if>
+	       
+	       <if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+		
+		<if test="markTime1 != null ">
+			AND mark_time1 = #{markTime1,jdbcType=BIGINT}
+		</if>
+		
+			<if test="hourId != null ">
+			AND hour_id = #{hourId,jdbcType=BIGINT}
+		</if>
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="uid != null ">
+			uid = #{uid,jdbcType=BIGINT},
+		</if>
+		<if test="location != null ">
+			location = #{location,jdbcType=VARCHAR},
+		</if>
+		<if test="markTime != null ">
+			mark_time = #{markTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="orgId != null ">
+			org_id = #{orgId,jdbcType=TIMESTAMP},
+		</if>
+		<if test="markTime1 != null ">
+			mark_time1 = #{markTime1,jdbcType=BIGINT},
+		</if>
+		
+			<if test="hourId != null ">
+		   hour_id = #{hourId,jdbcType=BIGINT}
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="TSignResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_SIGN
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="TSignResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_SIGN
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_SIGN
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.TSign">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_SIGN 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.TSign">
+		UPDATE	T_SIGN
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_SIGN
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_SIGN
+		WHERE	ID	IN
+    	<foreach item="TSignId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{TSignId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="TSignResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_SIGN
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="TSignResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_SIGN
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+	<!-- 分页查询-->
+	<select id="findIsSign" resultType="long">
+	SELECT COUNT(*) from t_sign where uid= #{uid,jdbcType=BIGINT} and org_id=#{orgId,jdbcType=BIGINT} and DATE_FORMAT(mark_time,'%Y%m%d')= DATE_FORMAT(NOW(),'%Y%m%d')
+
+	</select>
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="TSignResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_SIGN
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 

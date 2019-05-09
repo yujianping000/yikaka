@@ -1,0 +1,541 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.OrgnizationDao">
+	
+	<resultMap id="OrgnizationResultMap" type="com.framework.loippi.entity.Orgnization">
+		<id property="id" column="id"  />
+		<result property="name" column="name" />
+		<result property="image" column="image" />
+		<result property="province" column="province" />
+		<result property="city" column="city" />
+		<result property="area" column="area" />
+		<result property="location" column="location" />
+		<result property="locLat" column="loc_lat" />
+		<result property="locLng" column="loc_lng" />
+		<result property="favStar" column="fav_star" />
+		<result property="replyCount" column="reply_count" />
+		<result property="createDate" column="create_date" />
+		<result property="uid" column="uid" />
+		<result property="telPhone" column="tel_phone" />
+		<result property="serviceName" column="service_name" />
+		<result property="status" column="status" />
+		<result property="fee" column="fee" />
+		<result property="description" column="description" />
+		<result property="courseContent" column="course_content" />
+		<result property="type" column="type" />
+		<result property="hit" column="hit" />
+		<result property="distance" column="distance" />
+		
+		<result property="evaluation" column="evaluation" />
+		<result property="teacherCount" column="teacher_count" />
+		<result property="studentCount" column="student_count" />
+		<result property="uuid" column="uuid" />
+		<result property="servicePhone" column="service_phone" />
+		<result property="account" column="account" />
+		<result property="password" column="password" />
+		<result property="background_name" column="backgroundName" />
+		<result property="background_logo" column="backgroundLogo" />
+		<result property="org_image" column="orgImage" />
+		
+		<result property="provinceId" column="province_id" />
+		<result property="cityId" column="city_id" />
+		<result property="areaId" column="area_id" />
+		
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,name ,image ,province ,city ,area ,location ,loc_lat ,loc_lng ,fav_star ,reply_count ,create_date 
+		 ,uid ,tel_phone ,service_name ,status ,fee ,description ,course_content ,type ,hit,distance ,evaluation
+		 ,teacher_count ,student_count ,uuid ,service_phone ,account ,password ,background_name ,background_logo ,org_image ,province_id ,city_id ,area_id 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{name},#{image},#{province},#{city},#{area},#{location},#{locLat},#{locLng},#{favStar},#{replyCount}
+		 ,#{createDate},#{uid},#{telPhone},#{serviceName},#{status},#{fee},#{description},#{courseContent},#{type}
+		 ,#{hit},#{distance},#{evaluation},#{teacherCount},#{studentCount},#{uuid},#{servicePhone},#{account},#{password}
+		 ,#{backgroundName},#{backgroundLogo},#{orgImage},#{provinceId},#{cityId},#{areaId}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="name != null ">
+			AND name = #{name,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="image != null ">
+			AND image = #{image,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="province != null ">
+			AND province = #{province,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="city != null ">
+			AND city = #{city,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="area != null ">
+			AND area = #{area,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="location != null ">
+			AND location = #{location,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="locLat != null ">
+			AND loc_lat = #{locLat,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="locLng != null ">
+			AND loc_lng = #{locLng,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="favStar != null ">
+			AND fav_star = #{favStar,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="replyCount != null ">
+			AND reply_count = #{replyCount,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="createDate != null ">
+			AND create_date = #{createDate,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="uid != null ">
+			AND uid = #{uid,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="telPhone != null ">
+			AND tel_phone = #{telPhone,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="serviceName != null ">
+			AND service_name = #{serviceName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="status != null ">
+			AND status = #{status,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="fee != null ">
+			AND fee = #{fee,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="description != null ">
+			AND description = #{description,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="courseContent != null ">
+			AND course_content = #{courseContent,jdbcType=VARCHAR}
+		</if>
+		
+		
+		<if test="keyword != null ">
+			AND course_content  like CONCAT('%',#{keyword},'%')
+		</if>
+		
+		<if test="type != null ">
+			AND type  like CONCAT('%',#{type},'%')
+		</if>
+		
+		<!-- 机构端添加字段 -->
+		<if test="evaluation != null ">
+			AND evaluation = #{evaluation,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="teacherCount != null ">
+			AND teacher_count = #{teacherCount,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="studentCount != null ">
+			AND student_count = #{studentCount,jdbcType=INTEGER}
+		</if>
+		
+		<if test="uuid != null ">
+			AND uuid = #{uuid,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="servicePhone != null ">
+			AND service_phone = #{servicePhone,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="account != null ">
+			AND account = #{account,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="password != null ">
+			AND password = #{password,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="backgroundName != null ">
+			AND background_name = #{backgroundName,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="backgroundLogo != null ">
+			AND background_logo = #{backgroundLogo,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="orgImage != null ">
+			AND org_image = #{orgImage,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="provinceId != null ">
+			AND province_id = #{provinceId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="cityId != null ">
+			AND city_id = #{cityId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="areaId != null ">
+			AND area_id = #{areaId,jdbcType=BIGINT}
+		</if>
+		
+			<!-- 页面搜索条件 -->
+		<!-- 模糊查询条件 -->
+		<if test="filter_id != null">
+			AND id like CONCAT('%','${filter_id}','%')
+		</if>
+		
+		<if test="filter_account != null">
+			AND account like CONCAT('%','${filter_account}','%')
+		</if>
+		
+		<if test="filter_name != null">
+			AND name like CONCAT('%','${filter_name}','%')
+		</if>
+		
+		<if test="filter_provinceId != null">
+			AND province_id = ${filter_provinceId}
+		</if>
+		
+		<if test="filter_cityId != null">
+			AND city_id = ${filter_cityId}
+		</if>
+		
+		<if test="filter_areaId != null">
+			AND area_id = ${filter_areaId}
+		</if>
+		
+		<if test="filter_status != null ">
+			AND status = ${filter_status}
+		</if>
+		
+		
+	
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="name != null ">
+			name = #{name,jdbcType=VARCHAR},
+		</if>
+		<if test="image != null ">
+			image = #{image,jdbcType=VARCHAR},
+		</if>
+		<if test="province != null ">
+			province = #{province,jdbcType=VARCHAR},
+		</if>
+		<if test="city != null ">
+			city = #{city,jdbcType=VARCHAR},
+		</if>
+		<if test="area != null ">
+			area = #{area,jdbcType=VARCHAR},
+		</if>
+		<if test="location != null ">
+			location = #{location,jdbcType=VARCHAR},
+		</if>
+		<if test="locLat != null ">
+			loc_lat = #{locLat,jdbcType=DECIMAL},
+		</if>
+		<if test="locLng != null ">
+			loc_lng = #{locLng,jdbcType=DECIMAL},
+		</if>
+		<if test="favStar != null ">
+			fav_star = #{favStar,jdbcType=INTEGER},
+		</if>
+		<if test="replyCount != null ">
+			reply_count = #{replyCount,jdbcType=INTEGER},
+		</if>
+		<if test="createDate != null ">
+			create_date = #{createDate,jdbcType=TIMESTAMP},
+		</if>
+		<if test="uid != null ">
+			uid = #{uid,jdbcType=BIGINT},
+		</if>
+		<if test="telPhone != null ">
+			tel_phone = #{telPhone,jdbcType=VARCHAR},
+		</if>
+		<if test="serviceName != null ">
+			service_name = #{serviceName,jdbcType=VARCHAR},
+		</if>
+		<if test="status != null ">
+			status = #{status,jdbcType=INTEGER},
+		</if>
+		<if test="fee != null ">
+			fee = #{fee,jdbcType=DECIMAL},
+		</if>
+		<if test="description != null ">
+			description = #{description,jdbcType=VARCHAR},
+		</if>
+		<if test="courseContent != null ">
+			course_content = #{courseContent,jdbcType=VARCHAR},
+		</if>
+		
+		<if test="type != null ">
+			type = #{type,jdbcType=VARCHAR},
+		</if>
+		
+		<if test="hit != null ">
+			 hit = #{hit,jdbcType=INTEGER},
+		</if>
+		
+		<if test="distance != null ">
+			 distance = #{distance,jdbcType=DECIMAL},
+		</if>
+		
+		<if test="evaluation != null ">
+			evaluation = #{evaluation,jdbcType=DECIMAL},
+		</if>
+		<if test="teacherCount != null ">
+			teacher_count = #{teacherCount,jdbcType=INTEGER},
+		</if>
+		<if test="studentCount != null ">
+			student_count = #{studentCount,jdbcType=INTEGER},
+		</if>
+		
+		<if test="uuid != null ">
+			uuid = #{uuid,jdbcType=VARCHAR},
+		</if>
+		
+		<if test="servicePhone != null ">
+			service_phone = #{servicePhone,jdbcType=VARCHAR},
+		</if>
+		
+		<if test="account != null ">
+			account = #{account,jdbcType=VARCHAR},
+		</if>
+		
+		<if test="password != null ">
+			password = #{password,jdbcType=VARCHAR},
+		</if>
+		
+		<if test="backgroundName != null ">
+			background_name = #{backgroundName,jdbcType=VARCHAR},
+		</if>
+		
+		<if test="backgroundLogo != null ">
+			background_logo = #{backgroundLogo,jdbcType=VARCHAR},
+		</if>
+		
+		<if test="orgImage != null ">
+			org_image = #{orgImage,jdbcType=VARCHAR},
+		</if>
+		
+		<if test="provinceId != null ">
+			province_id = #{provinceId,jdbcType=BIGINT},
+		</if>
+		<if test="cityId != null ">
+			city_id = #{cityId,jdbcType=BIGINT},
+		</if>
+		<if test="areaId != null ">
+			area_id = #{areaId,jdbcType=BIGINT},
+		</if>
+		
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="OrgnizationResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_ORGNIZATION
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="OrgnizationResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_ORGNIZATION
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_ORGNIZATION
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.Orgnization">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_ORGNIZATION 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.Orgnization">
+		UPDATE	T_ORGNIZATION
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_ORGNIZATION
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_ORGNIZATION
+		WHERE	ID	IN
+    	<foreach item="OrgnizationId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{OrgnizationId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="OrgnizationResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_ORGNIZATION
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="OrgnizationResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_ORGNIZATION
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+    <select id="findListByPage1" resultMap="OrgnizationResultMap">
+    SELECT
+	too.*
+FROM
+	t_org_user tou,
+	t_orgnization too
+WHERE
+	tou.org_id = too.id
+AND tou.uid = #{uid,jdbcType=BIGINT} and tou.type=2 ORDER BY tou.id DESC
+  <if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+  </select>
+  
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="OrgnizationResultMap">
+       
+       <if test="lat != null and lat != ''">
+       
+		SELECT
+T_ORGNIZATION.id ,name ,image ,province ,city ,area ,location, loc_lat,loc_lng ,fav_star ,reply_count ,T_ORGNIZATION.create_date ,uid ,tel_phone ,service_name ,status ,fee ,description ,course_content ,
+	truncate(SQRT(
+		(T_ORGNIZATION.loc_lat -#{lat}) * (T_ORGNIZATION.loc_lat - #{lat}) + (T_ORGNIZATION.loc_lng -#{lng}) * (T_ORGNIZATION.loc_lng - #{lng})
+	) * 111712/1000,4) AS distance,type
+		FROM T_ORGNIZATION,t_orgnization_scanlog
+		
+		<where> 1=1
+			<include refid="where_column" />
+			
+		and	t_orgnization_scanlog.org_id=T_ORGNIZATION.id
+			<if test="userId != null ">
+			AND t_orgnization_scanlog.user_id = ${userId}
+		</if>
+		
+			
+			
+		</where>
+					
+	   
+	      <if test="sort ==1"> 
+		  order by  distance
+	     </if>
+	     
+	      <if test="sort ==2"> 
+		  order by  distance
+	     </if>
+	     
+	      <if test="sort ==3"> 
+		   order by  hit
+	     </if>
+	     
+	     <if test="sort ==4"> 
+		   order by  fav_star
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+  </if>
+			
+			
+			 <if test="lat == null or lat == ''">
+       
+		SELECT
+		<include refid="base_column" />
+		FROM T_ORGNIZATION
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+			
+			   </if>
+		
+	</select>
+	
+</mapper> 

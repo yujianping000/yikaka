@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.TTripDao">
+	
+	<resultMap id="TTripResultMap" type="com.framework.loippi.entity.TTrip">
+		<id property="id" column="id"  />
+		<!-- 
+		<result property="tripTime" column="trip_time" />
+		<result property="alarmTime" column="alarm_time" />
+		 -->
+		<result property="createDate" column="create_date" />
+		<result property="content" column="content" />
+		<result property="images" column="images" />
+		<result property="uid" column="uid" />
+				<result property="account" column="account" />
+				<result property="name" column="name" />
+		
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id  ,create_date ,content ,images ,uid,account,name
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{createDate},#{content},#{images},#{uid},#{account},#{name}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+		<if test="id != null and id != ''">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+		<!--  
+		<if test="tripTime != null and tripTime != ''">
+			AND trip_time = #{tripTime,jdbcType=BIGINT}
+		</if>
+		<if test="alarmTime != null and alarmTime != ''">
+			AND alarm_time = #{alarmTime,jdbcType=BIGINT}
+		</if>
+		-->
+		<if test="createDate != null and createDate != ''">
+			AND create_date = #{createDate,jdbcType=BIGINT}
+		</if>
+		<if test="uid != null and uid != ''">
+			AND uid = #{uid,jdbcType=BIGINT}
+		</if>
+		<if test="account != null and account != ''">
+			AND account like '%${account}%'
+		</if>
+		<if test="name != null and name != ''">
+			AND name like '%${name}%'
+		</if>
+
+				<if test="filter_sDate != null">
+			  AND  date_format(create_date,'%Y%m%d')<![CDATA[>=]]>${filter_sDate}
+		</if>
+		
+		<if test=" filter_eDate != null">
+			  AND  date_format(create_date,'%Y%m%d')<![CDATA[<=]]>${filter_eDate}
+		</if>
+		
+		<if test=" filter_create_date != null">
+			  AND  date_format(create_date,'%Y-%m-%d')<![CDATA[='${filter_create_date}']]>
+		</if>
+		
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<!-- 
+		<if test="tripTime != null">
+			trip_time = #{tripTime,jdbcType=BIGINT},
+		</if>
+		
+		<if test="alarmTime != null">
+			alarm_time = #{alarmTime,jdbcType=BIGINT},
+		</if>
+		 -->
+		<if test="createDate != null">
+			create_date = #{createDate,jdbcType=BIGINT},
+		</if>
+		<if test="content != null and content != ''">
+			content = #{content,jdbcType=VARCHAR},
+		</if>
+		<if test="images != null ">
+			images = #{images,jdbcType=VARCHAR},
+		</if>
+		<if test="uid != null">
+			uid = #{uid,jdbcType=BIGINT},
+		</if>
+			<if test="account != null">
+			account = #{account,jdbcType=VARCHAR},
+		</if>
+		<if test="name != null">
+			name = #{name,jdbcType=VARCHAR},
+		</if>
+		
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="TTripResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_TRIP
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="TTripResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_TRIP
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_TRIP
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.TTrip">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_TRIP 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.TTrip">
+		UPDATE	T_TRIP
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_TRIP
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_TRIP
+		WHERE	ID	IN
+    	<foreach item="TTripId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{TTripId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="TTripResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_TRIP
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+		order by  id desc
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="TTripResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_TRIP
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+		order by id desc
+	</select>
+	
+		<!-- 查询当前时间日期-->
+	<select id="findListTrip" resultMap="TTripResultMap">
+       	SELECT * from t_trip where DATE_FORMAT(alarm_time,'%Y%m%d%H%i')= DATE_FORMAT(NOW(),'%Y%m%d%H%i')
+	</select>
+
+</mapper> 

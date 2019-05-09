@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.ActivityDao">
+	
+	<resultMap id="ActivityResultMap" type="com.framework.loippi.entity.Activity">
+		<id property="id" column="id"  />
+		<result property="name" column="name" />
+		<result property="status" column="status" />
+		<result property="image" column="image" />
+		<result property="fee" column="fee" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="uid" column="uid" />
+		<result property="location" column="location" />
+		<result property="locLat" column="loc_lat" />
+		<result property="locLng" column="loc_lng" />
+		<result property="locGeo" column="loc_geo" />
+		<result property="company" column="company" />
+		<result property="ageRank" column="age_rank" />
+		<result property="createDate" column="create_date" />
+		<result property="totalSum" column="total_sum" />
+		<result property="totalFeez" column="total_feez" />
+		<result property="already" column="already" />
+		<result property="description" column="description" />
+		<result property="organization" column="organization" />
+		<result property="orgId" column="org_id"  />
+		<result property="already2" column="already2" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,name ,status ,image ,fee ,start_time ,end_time 
+		 ,uid ,location ,loc_lat ,loc_lng ,loc_geo ,company 
+		 ,age_rank ,create_date ,total_sum ,total_feez ,already 
+		 ,description ,organization ,org_id ,already2
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{name},#{status},#{image},#{fee},#{startTime}
+		 ,#{endTime},#{uid},#{location},#{locLat},#{locLng}
+		 ,#{locGeo},#{company},#{ageRank},#{createDate},#{totalSum}
+		 ,#{totalFeez},#{already},#{description},#{organization},#{orgId},#{already2}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+		
+		
+		<if test="name != null ">
+			AND name = #{name,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="status != null ">
+			AND status = #{status,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="image != null ">
+			AND image = #{image,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="fee != null ">
+			AND fee = #{fee,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="startTime != null ">
+			AND start_time = #{startTime,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="endTime != null ">
+			AND end_time = #{endTime,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="uid != null ">
+			AND uid = #{uid,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="location != null ">
+			AND location = #{location,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="locLat != null ">
+			AND loc_lat = #{locLat,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="locLng != null ">
+			AND loc_lng = #{locLng,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="locGeo != null ">
+			AND loc_geo = #{locGeo,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="company != null ">
+			AND company = #{company,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="ageRank != null ">
+			AND age_rank = #{ageRank,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="createDate != null ">
+			AND create_date = #{createDate,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="totalSum != null ">
+			AND total_sum = #{totalSum,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="totalFeez != null ">
+			AND total_feez = #{totalFeez,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="already != null ">
+			AND already = #{already,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="description != null ">
+			AND description = #{description,jdbcType=VARCHAR}
+		</if>
+
+		<if test="organization != null ">
+			AND organization = #{organization,jdbcType=VARCHAR}
+		</if>
+		
+			<if test="already2 != null ">
+			AND already2 = #{already2,jdbcType=INTEGER}
+		</if>
+	
+		
+		<!-- 模糊查询条件 -->
+		<if test="filter_status != null ">
+			AND status = #{filter_status,jdbcType=BIGINT}
+		</if>
+		
+			<if test="filter_id != null ">
+			AND id = #{filter_id,jdbcType=BIGINT}
+		</if>
+		
+		<if test="filter_name != null">
+			AND name like CONCAT('%','${filter_name}','%')
+		</if>
+		
+		<if test="filter_company != null">
+			AND company like CONCAT('%','${filter_company}','%')
+		</if>
+		
+	
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		
+				<if test="orgId != null ">
+			 org_id = #{orgId,jdbcType=BIGINT},
+		</if>
+		
+		
+		
+		<if test="name != null ">
+			name = #{name,jdbcType=VARCHAR},
+		</if>
+		<if test="status != null ">
+			status = #{status,jdbcType=INTEGER},
+		</if>
+		<if test="image != null ">
+			image = #{image,jdbcType=VARCHAR},
+		</if>
+		<if test="fee != null ">
+			fee = #{fee,jdbcType=DECIMAL},
+		</if>
+		<if test="startTime != null ">
+			start_time = #{startTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="endTime != null ">
+			end_time = #{endTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="uid != null ">
+			uid = #{uid,jdbcType=BIGINT},
+		</if>
+		<if test="location != null ">
+			location = #{location,jdbcType=VARCHAR},
+		</if>
+		<if test="locLat != null ">
+			loc_lat = #{locLat,jdbcType=DECIMAL},
+		</if>
+		<if test="locLng != null ">
+			loc_lng = #{locLng,jdbcType=DECIMAL},
+		</if>
+		<if test="locGeo != null ">
+			loc_geo = #{locGeo,jdbcType=VARCHAR},
+		</if>
+		<if test="company != null ">
+			company = #{company,jdbcType=VARCHAR},
+		</if>
+		<if test="ageRank != null ">
+			age_rank = #{ageRank,jdbcType=VARCHAR},
+		</if>
+		<if test="createDate != null ">
+			create_date = #{createDate,jdbcType=TIMESTAMP},
+		</if>
+		<if test="totalSum != null ">
+			total_sum = #{totalSum,jdbcType=INTEGER},
+		</if>
+		<if test="totalFeez != null ">
+			total_feez = #{totalFeez,jdbcType=INTEGER},
+		</if>
+		<if test="already != null ">
+			already = #{already,jdbcType=INTEGER},
+		</if>
+		<if test="description != null ">
+			description = #{description,jdbcType=VARCHAR},
+		</if>
+		<if test="organization != null ">
+			organization = #{organization,jdbcType=VARCHAR},
+		</if>
+		<if test="already2 != null ">
+			already2 = #{already2,jdbcType=INTEGER},
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="ActivityResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_ACTIVITY
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="ActivityResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_ACTIVITY
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_ACTIVITY
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.Activity">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_ACTIVITY 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.Activity">
+		UPDATE	T_ACTIVITY
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_ACTIVITY
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_ACTIVITY
+		WHERE	ID	IN
+    	<foreach item="ActivityId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{ActivityId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="ActivityResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_ACTIVITY
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="ActivityResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_ACTIVITY
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="ActivityResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_ACTIVITY
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+	
+	<!-- 分页查询-->
+       <select id="findMyListByPage" resultMap="ActivityResultMap">
+		SELECT
+		T_ACTIVITY.*
+		FROM T_ACTIVITY,T_ORDER
+		<where> 1=1
+			<include refid="where_column" />
+			
+		and	T_ACTIVITY.id=T_ORDER.target_id and T_ORDER.type=2  and T_ORDER.status in(2,3,8)
+			
+			AND T_ORDER.uid = #{orderuid,jdbcType=BIGINT}
+
+		
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+		<!-- 报名课程-->
+	<update id="update2buyActivity">
+			UPDATE	T_ACTIVITY
+		<set>
+			already2 =already2+1,
+			already =already+1,
+			total_feez =total_feez-1,
+		
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}  and <![CDATA[total_feez>0 ]]>   
+	</update>
+	
+			<!-- 取消报名课程-->
+	<update id="update2CancelActivity">
+			UPDATE	T_ACTIVITY
+		<set>
+			already2 =already2-1,
+			already =already-1,
+			total_feez =total_feez+1,
+		
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}   and <![CDATA[already>0 ]]>    and <![CDATA[already2>0 ]]> 
+	</update>
+	
+</mapper> 

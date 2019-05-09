@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.SystemMesDao">
+	
+	<resultMap id="SystemMesResultMap" type="com.framework.loippi.entity.SystemMes">
+		<id property="id" column="id"  />
+		<result property="image" column="image" />
+		<result property="content" column="content" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="createDate" column="create_date" />
+		<result property="type" column="type" />
+		<result property="status" column="status" />
+		<result property="messageId" column="message_id" />
+		<result property="title" column="title" />
+		<result property="num" column="num" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,image ,content ,user_id ,user_name ,create_date ,type ,status ,message_id  ,title   ,num 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{image},#{content},#{userId},#{userName},#{createDate},#{type},#{status},#{messageId},#{title},#{num}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="image != null ">
+			AND image = #{image,jdbcType=VARCHAR}
+		</if>
+	
+
+	    <if test="title != null ">
+			AND  title  like CONCAT('%',#{title},'%')
+		</if>
+	
+		<if test="content != null ">
+			AND content = #{content,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="userId != null ">
+			AND user_id = #{userId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="userName != null ">
+			AND user_name = #{userName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="createDate != null ">
+			AND create_date = #{createDate,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="type != null ">
+			AND type = #{type,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="status != null ">
+			AND status = #{status,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="messageId != null ">
+			AND message_id = #{messageId,jdbcType=BIGINT}
+		</if>
+		
+			<if test="num != null ">
+			AND num = #{num,jdbcType=INTEGER}
+		</if>
+		
+		<!-- 页面时间搜索条件  -->
+		<if test="filter_sDate != null">
+			  AND  date_format(create_date,'%Y%m%d')<![CDATA[>=]]>${filter_sDate}
+		</if>
+		
+		<if test=" filter_eDate != null">
+			  AND  date_format(create_date,'%Y%m%d')<![CDATA[<=]]>${filter_eDate}
+		</if>
+	
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+			
+	<if test="title != null ">
+			 title = #{title,jdbcType=VARCHAR},
+		</if>
+		<if test="image != null ">
+			image = #{image,jdbcType=VARCHAR},
+		</if>
+		<if test="content != null ">
+			content = #{content,jdbcType=VARCHAR},
+		</if>
+		<if test="userId != null ">
+			user_id = #{userId,jdbcType=BIGINT},
+		</if>
+		<if test="userName != null ">
+			user_name = #{userName,jdbcType=VARCHAR},
+		</if>
+		<if test="createDate != null ">
+			create_date = #{createDate,jdbcType=TIMESTAMP},
+		</if>
+		<if test="type != null ">
+			type = #{type,jdbcType=INTEGER},
+		</if>
+		<if test="status != null ">
+			status = #{status,jdbcType=INTEGER},
+		</if>
+		<if test="messageId != null ">
+			message_id = #{messageId,jdbcType=BIGINT},
+		</if>
+		<if test="num != null ">
+			num = #{num,jdbcType=INTEGER},
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="SystemMesResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_SYSTEM_MES
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="SystemMesResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_SYSTEM_MES
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_SYSTEM_MES
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.SystemMes">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_SYSTEM_MES 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.SystemMes">
+		UPDATE	T_SYSTEM_MES
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_SYSTEM_MES
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_SYSTEM_MES
+		WHERE	ID	IN
+    	<foreach item="SystemMesId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{SystemMesId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="SystemMesResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_SYSTEM_MES
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="SystemMesResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_SYSTEM_MES
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="SystemMesResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_SYSTEM_MES
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+		<!-- 删除单条记录 -->
+	<delete id="deleteByMesId">
+		DELETE	FROM T_SYSTEM_MES
+		WHERE	message_id = #{message_id,jdbcType=BIGINT}
+	</delete>
+	
+	
+</mapper> 

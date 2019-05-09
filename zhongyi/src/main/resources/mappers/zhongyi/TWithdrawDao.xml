@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.TWithdrawDao">
+	
+	<resultMap id="TWithdrawResultMap" type="com.framework.loippi.entity.TWithdraw">
+		<id property="id" column="id"  />
+		<result property="withdrawTime" column="withdraw_time" />
+		<result property="withdrawTotal" column="withdraw_total" />
+		<result property="procedureTotal" column="procedure_total" />
+		<result property="toAccountTotal" column="to_account_total" />
+		<result property="bankName" column="bank_name" />
+		<result property="bankNum" column="bank_num" />
+		<result property="bankUserName" column="bank_user_name" />
+		<result property="note" column="note" />
+		<result property="status" column="status" />
+		<result property="orgId" column="org_id" />
+		<result property="userAccnout" column="user_accnout" />
+		
+		
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,withdraw_time ,withdraw_total ,procedure_total ,to_account_total ,bank_name ,bank_num ,bank_user_name ,note ,status ,org_id,user_accnout
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{withdrawTime},#{withdrawTotal},#{procedureTotal},#{toAccountTotal},#{bankName},#{bankNum},#{bankUserName},#{note},#{status},#{orgId},#{userAccnout}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="withdrawTime != null ">
+			AND withdraw_time = #{withdrawTime,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="withdrawTotal != null ">
+			AND withdraw_total = #{withdrawTotal,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="procedureTotal != null ">
+			AND procedure_total = #{procedureTotal,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="toAccountTotal != null ">
+			AND to_account_total = #{toAccountTotal,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="bankName != null ">
+			AND bank_name = #{bankName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="bankNum != null ">
+			AND bank_num = #{bankNum,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="bankUserName != null ">
+			AND bank_user_name = #{bankUserName,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="note != null ">
+			AND note = #{note,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="status != null ">
+			AND status = #{status,jdbcType=INTEGER}
+		</if>
+	    
+	    	<if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+		 	<if test="userAccnout != null ">
+			AND user_accnout = #{userAccnout,jdbcType=VARCHAR}
+		</if>
+		
+				<!-- 页面时间搜索条件  -->
+
+		
+		
+			<if test="filter_sDate != null">
+			  AND  date_format(withdraw_time,'%Y%m%d')<![CDATA[>=]]>${filter_sDate}
+		</if>
+		
+		<if test=" filter_eDate != null">
+			  AND  date_format(withdraw_time,'%Y%m%d')<![CDATA[<=]]>${filter_eDate}
+		</if>
+		
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="withdrawTime != null ">
+			withdraw_time = #{withdrawTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="withdrawTotal != null ">
+			withdraw_total = #{withdrawTotal,jdbcType=DECIMAL},
+		</if>
+		<if test="procedureTotal != null ">
+			procedure_total = #{procedureTotal,jdbcType=DECIMAL},
+		</if>
+		<if test="toAccountTotal != null ">
+			to_account_total = #{toAccountTotal,jdbcType=DECIMAL},
+		</if>
+		<if test="bankName != null ">
+			bank_name = #{bankName,jdbcType=VARCHAR},
+		</if>
+		<if test="bankNum != null ">
+			bank_num = #{bankNum,jdbcType=VARCHAR},
+		</if>
+		<if test="bankUserName != null ">
+			bank_user_name = #{bankUserName,jdbcType=VARCHAR},
+		</if>
+		<if test="note != null ">
+			note = #{note,jdbcType=VARCHAR},
+		</if>
+		<if test="status != null ">
+			status = #{status,jdbcType=INTEGER},
+		</if>
+			<if test="orgId != null ">
+			org_id = #{orgId,jdbcType=BIGINT},
+		</if>
+		<if test="userAccnout != null ">
+			user_accnout = #{userAccnout,jdbcType=VARCHAR},
+		</if>
+		
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="TWithdrawResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_WITHDRAW
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="TWithdrawResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_WITHDRAW
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_WITHDRAW
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.TWithdraw">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_WITHDRAW 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.TWithdraw">
+		UPDATE	T_WITHDRAW
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_WITHDRAW
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_WITHDRAW
+		WHERE	ID	IN
+    	<foreach item="TWithdrawId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{TWithdrawId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="TWithdrawResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_WITHDRAW
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="TWithdrawResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_WITHDRAW
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="TWithdrawResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_WITHDRAW
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+
+	  <select id="seachListByPage" resultType="com.framework.loippi.entity.WithdrawInfo">
+	SELECT IFNULL(SUM(withdraw_total),0) as withdrawTotalInfo ,IFNULL(SUM(procedure_total),0) as procedureTotalInfo,IFNULL(SUM(to_account_total),0) as toAccountTotal 
+	from t_withdraw where 1=1
+	<if test="orgId != null and  orgId != ''">
+	 and org_id= #{orgId,jdbcType=BIGINT} 
+		</if>
+	</select>
+</mapper> 

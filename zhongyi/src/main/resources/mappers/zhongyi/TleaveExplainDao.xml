@@ -1,0 +1,311 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.TleaveExplainDao">
+	
+	<resultMap id="TleaveExplainResultMap" type="com.framework.loippi.entity.TleaveExplain">
+		<id property="id" column="id"  />
+		<result property="day1" column="day1" />
+		<result property="deduct1" column="deduct1" />
+		<result property="day2" column="day2" />
+		<result property="deduct2" column="deduct2" />
+		<result property="day3" column="day3" />
+		<result property="deduct3" column="deduct3" />
+		<result property="day4" column="day4" />
+		<result property="deduct4" column="deduct4" />
+		<result property="day5" column="day5" />
+		<result property="deduct5" column="deduct5" />
+		<result property="day6" column="day6" />
+		<result property="deduct6" column="deduct6" />
+		<result property="day7" column="day7" />
+		<result property="deduct7" column="deduct7" />
+		<result property="day8" column="day8" />
+		<result property="deduct8" column="deduct8" />
+		<result property="day9" column="day9" />
+		<result property="deduct9" column="deduct9" />
+		<result property="uid" column="uid" />
+			<result property="orgId" column="org_id" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,day1 ,deduct1 ,day2 ,deduct2 ,day3 ,deduct3 ,day4 ,deduct4 ,day5 ,deduct5 ,day6 ,deduct6 ,day7 ,deduct7 ,day8 ,deduct8 ,day9 ,deduct9 ,uid,org_id 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{day1},#{deduct1},#{day2},#{deduct2},#{day3},#{deduct3},#{day4},#{deduct4},#{day5},#{deduct5},#{day6},#{deduct6},#{day7},#{deduct7},#{day8},#{deduct8},#{day9},#{deduct9},#{uid},#{orgId}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="day1 != null ">
+			AND day1 = #{day1,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="deduct1 != null ">
+			AND deduct1 = #{deduct1,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="day2 != null ">
+			AND day2 = #{day2,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="deduct2 != null ">
+			AND deduct2 = #{deduct2,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="day3 != null ">
+			AND day3 = #{day3,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="deduct3 != null ">
+			AND deduct3 = #{deduct3,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="day4 != null ">
+			AND day4 = #{day4,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="deduct4 != null ">
+			AND deduct4 = #{deduct4,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="day5 != null ">
+			AND day5 = #{day5,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="deduct5 != null ">
+			AND deduct5 = #{deduct5,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="day6 != null ">
+			AND day6 = #{day6,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="deduct6 != null ">
+			AND deduct6 = #{deduct6,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="day7 != null ">
+			AND day7 = #{day7,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="deduct7 != null ">
+			AND deduct7 = #{deduct7,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="day8 != null ">
+			AND day8 = #{day8,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="deduct8 != null ">
+			AND deduct8 = #{deduct8,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="day9 != null ">
+			AND day9 = #{day9,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="deduct9 != null ">
+			AND deduct9 = #{deduct9,jdbcType=DECIMAL}
+		</if>
+	
+
+		<if test="uid != null ">
+			AND uid = #{uid,jdbcType=BIGINT}
+		</if>
+		
+			<if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+	
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="day1 != null ">
+			day1 = #{day1,jdbcType=INTEGER},
+		</if>
+		<if test="deduct1 != null ">
+			deduct1 = #{deduct1,jdbcType=DECIMAL},
+		</if>
+		<if test="day2 != null ">
+			day2 = #{day2,jdbcType=INTEGER},
+		</if>
+		<if test="deduct2 != null ">
+			deduct2 = #{deduct2,jdbcType=DECIMAL},
+		</if>
+		<if test="day3 != null ">
+			day3 = #{day3,jdbcType=INTEGER},
+		</if>
+		<if test="deduct3 != null ">
+			deduct3 = #{deduct3,jdbcType=DECIMAL},
+		</if>
+		<if test="day4 != null ">
+			day4 = #{day4,jdbcType=INTEGER},
+		</if>
+		<if test="deduct4 != null ">
+			deduct4 = #{deduct4,jdbcType=DECIMAL},
+		</if>
+		<if test="day5 != null ">
+			day5 = #{day5,jdbcType=INTEGER},
+		</if>
+		<if test="deduct5 != null ">
+			deduct5 = #{deduct5,jdbcType=DECIMAL},
+		</if>
+		<if test="day6 != null ">
+			day6 = #{day6,jdbcType=INTEGER},
+		</if>
+		<if test="deduct6 != null ">
+			deduct6 = #{deduct6,jdbcType=DECIMAL},
+		</if>
+		<if test="day7 != null ">
+			day7 = #{day7,jdbcType=INTEGER},
+		</if>
+		<if test="deduct7 != null ">
+			deduct7 = #{deduct7,jdbcType=DECIMAL},
+		</if>
+		<if test="day8 != null ">
+			day8 = #{day8,jdbcType=INTEGER},
+		</if>
+		<if test="deduct8 != null ">
+			deduct8 = #{deduct8,jdbcType=DECIMAL},
+		</if>
+		<if test="day9 != null ">
+			day9 = #{day9,jdbcType=INTEGER},
+		</if>
+		<if test="deduct9 != null ">
+			deduct9 = #{deduct9,jdbcType=DECIMAL},
+		</if>
+		<if test="uid != null ">
+			uid = #{uid,jdbcType=BIGINT},
+		</if>
+			<if test="orgId != null ">
+			 org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="TleaveExplainResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_TLEAVE_EXPLAIN
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="TleaveExplainResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_TLEAVE_EXPLAIN
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_TLEAVE_EXPLAIN
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.TleaveExplain">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_TLEAVE_EXPLAIN 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.TleaveExplain">
+		UPDATE	T_TLEAVE_EXPLAIN
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_TLEAVE_EXPLAIN
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_TLEAVE_EXPLAIN
+		WHERE	ID	IN
+    	<foreach item="TleaveExplainId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{TleaveExplainId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="TleaveExplainResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_TLEAVE_EXPLAIN
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="TleaveExplainResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_TLEAVE_EXPLAIN
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="TleaveExplainResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_TLEAVE_EXPLAIN
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 

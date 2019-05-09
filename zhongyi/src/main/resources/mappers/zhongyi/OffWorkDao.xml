@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.OffWorkDao">
+	
+	<resultMap id="OffWorkResultMap" type="com.framework.loippi.entity.OffWork">
+		<id property="id" column="id"  />
+		<result property="uid" column="uid" />
+		<result property="type" column="type" />
+		<result property="image" column="image" />
+		<result property="description" column="description" />
+		<result property="courseId" column="course_id" />
+		<result property="hour" column="hour" />
+		<result property="start" column="start" />
+		<result property="end" column="end" />
+		<result property="createTime" column="create_time" />
+		<result property="reason" column="reason" />
+		<result property="status" column="status" />
+		<result property="dayNum" column="day_num" />
+		<result property="orgId" column="org_id" />
+		<result property="userType" column="user_type" />
+		<result property="account" column="account" />
+		<result property="nickName" column="nick_name" />
+		
+		<result property="stuname" column="stuname" />
+		<result property="stuid" column="stuid" />
+		<result property="hourtime" column="hourtime" />
+<result property="stuavatar" column="stuavatar" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,uid ,type ,image ,description ,course_id ,hour 
+		 ,start ,end ,create_time ,reason ,status ,day_num 
+		 ,org_id,user_type,account,nick_name
+		 ,stuname,stuid,hourtime,stuavatar
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{uid},#{type},#{image},#{description}
+		 ,#{courseId},#{hour},#{start},#{end},#{createTime}
+		 ,#{reason},#{status},#{dayNum},#{orgId},#{userType}
+		 ,#{account},#{nickName}
+		 ,#{stuname},#{stuid},#{hourtime},#{stuavatar}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="uid != null ">
+			AND uid = #{uid,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="type != null ">
+			AND type = #{type,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="image != null ">
+			AND image = #{image,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="description != null ">
+			AND description = #{description,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="courseId != null ">
+			AND course_id = #{courseId,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="hour != null ">
+			AND hour = #{hour,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="start != null ">
+			AND start = #{start,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="end != null ">
+			AND end = #{end,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="createTime != null ">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="reason != null ">
+			AND reason = #{reason,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="status != null ">
+			AND status = #{status,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="dayNum != null ">
+			AND day_num = #{dayNum,jdbcType=INTEGER}
+		</if>
+	      
+	      <if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+		
+		 <if test="userType != null ">
+			AND user_type = #{userType,jdbcType=BIGINT}
+		</if>
+		
+		 <if test="account != null ">
+			AND account like CONCAT('%',#{account},'%')
+		</if>
+		
+		 <if test="nickName != null ">
+			AND nick_name like CONCAT('%',#{nickName},'%')
+		</if>
+		
+		
+		<if test="stuid != null ">
+			AND stuid = #{stuid,jdbcType=BIGINT}
+		</if>
+		
+		 <if test="stuname != null ">
+			AND stuname = #{stuname,jdbcType=VARCHAR}
+		</if>
+		
+		 <if test="hourtime != null ">
+			AND hourtime = #{hourtime,jdbcType=VARCHAR}
+		</if>
+				 <if test="stuavatar != null ">
+			AND stuavatar = #{stuavatar,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="uid != null ">
+			uid = #{uid,jdbcType=BIGINT},
+		</if>
+		<if test="type != null ">
+			type = #{type,jdbcType=VARCHAR},
+		</if>
+		<if test="image != null ">
+			image = #{image,jdbcType=VARCHAR},
+		</if>
+		<if test="description != null ">
+			description = #{description,jdbcType=VARCHAR},
+		</if>
+		<if test="courseId != null ">
+			course_id = #{courseId,jdbcType=BIGINT},
+		</if>
+		<if test="hour != null ">
+			hour = #{hour,jdbcType=VARCHAR},
+		</if>
+		<if test="start != null ">
+			start = #{start,jdbcType=TIMESTAMP},
+		</if>
+		<if test="end != null ">
+			end = #{end,jdbcType=TIMESTAMP},
+		</if>
+		<if test="createTime != null ">
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="reason != null ">
+			reason = #{reason,jdbcType=VARCHAR},
+		</if>
+		<if test="status != null ">
+			status = #{status,jdbcType=INTEGER},
+		</if>
+		<if test="dayNum != null ">
+			day_num = #{dayNum,jdbcType=INTEGER},
+		</if>
+		<if test="orgId != null ">
+			org_id = #{orgId,jdbcType=INTEGER},
+		</if>
+		<if test="userType != null ">
+			user_type = #{userType,jdbcType=INTEGER},
+		</if>
+		<if test="account != null ">
+			account = #{account,jdbcType=VARCHAR},
+		</if>
+		<if test="nickName != null ">
+			nick_name = #{nickName,jdbcType=VARCHAR},
+		</if>
+		
+		<if test="stuid != null ">
+			 stuid = #{stuid,jdbcType=BIGINT},
+		</if>
+		
+		 <if test="stuname != null ">
+			 stuname = #{stuname,jdbcType=VARCHAR},
+		</if>
+		
+		 <if test="hourtime != null ">
+			 hourtime = #{hourtime,jdbcType=VARCHAR},
+		</if>
+		
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="OffWorkResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_OFF_WORK
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="OffWorkResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_OFF_WORK
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_OFF_WORK
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.OffWork">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_OFF_WORK 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.OffWork">
+		UPDATE	T_OFF_WORK
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_OFF_WORK
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_OFF_WORK
+		WHERE	ID	IN
+    	<foreach item="OffWorkId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{OffWorkId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="OffWorkResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_OFF_WORK
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="OffWorkResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_OFF_WORK
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+		
+			order by id desc
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="OffWorkResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_OFF_WORK
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+		order by id desc
+
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 

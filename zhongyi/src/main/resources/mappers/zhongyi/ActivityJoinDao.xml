@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.ActivityJoinDao">
+	
+	<resultMap id="ActivityJoinResultMap" type="com.framework.loippi.entity.ActivityJoin">
+		<id property="id" column="id"  />
+		<result property="pid" column="pid" />
+		<result property="cid" column="cid" />
+		<result property="aid" column="aid" />
+		<result property="phone" column="phone" />
+		<result property="remark" column="remark" />
+		<result property="createDate" column="create_date" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,pid ,cid ,aid ,phone ,remark ,create_date 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{pid},#{cid},#{aid},#{phone},#{remark},#{createDate}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="pid != null ">
+			AND pid = #{pid,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="cid != null ">
+			AND cid = #{cid,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="aid != null ">
+			AND aid = #{aid,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="phone != null ">
+			AND phone = #{phone,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="remark != null ">
+			AND remark = #{remark,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="createDate != null ">
+			AND create_date = #{createDate,jdbcType=TIMESTAMP}
+		</if>
+	
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="pid != null ">
+			pid = #{pid,jdbcType=BIGINT},
+		</if>
+		<if test="cid != null ">
+			cid = #{cid,jdbcType=BIGINT},
+		</if>
+		<if test="aid != null ">
+			aid = #{aid,jdbcType=BIGINT},
+		</if>
+		<if test="phone != null ">
+			phone = #{phone,jdbcType=VARCHAR},
+		</if>
+		<if test="remark != null ">
+			remark = #{remark,jdbcType=VARCHAR},
+		</if>
+		<if test="createDate != null ">
+			create_date = #{createDate,jdbcType=TIMESTAMP},
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="ActivityJoinResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_ACTIVITY_JOIN
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="ActivityJoinResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	T_ACTIVITY_JOIN
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM T_ACTIVITY_JOIN
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.ActivityJoin">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT T_ACTIVITY_JOIN 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.ActivityJoin">
+		UPDATE	T_ACTIVITY_JOIN
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM T_ACTIVITY_JOIN
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM T_ACTIVITY_JOIN
+		WHERE	ID	IN
+    	<foreach item="ActivityJoinId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{ActivityJoinId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="ActivityJoinResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	T_ACTIVITY_JOIN
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="ActivityJoinResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_ACTIVITY_JOIN
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="ActivityJoinResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM T_ACTIVITY_JOIN
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 

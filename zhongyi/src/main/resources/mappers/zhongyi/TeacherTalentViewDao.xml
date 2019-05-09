@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.framework.loippi.dao.TeacherTalentViewDao">
+	
+	<resultMap id="TeacherTalentViewResultMap" type="com.framework.loippi.entity.TeacherTalentView">
+		<result property="id" column="id" />
+		<result property="account" column="account" />
+		<result property="nickname" column="nickname" />
+		<result property="avatar" column="avatar" />
+		<result property="sex" column="sex" />
+		<result property="birthday" column="birthday" />
+		<result property="description" column="description" />
+		<result property="invitetype" column="inviteType" />
+		<result property="type" column="type" />
+		<result property="orgId" column="org_id" />
+	</resultMap>
+	
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 id ,account ,nickname ,avatar ,sex ,birthday ,description ,inviteType ,type ,org_id 
+	</sql>
+	
+	<sql id="base_value_column">
+		 #{id},#{account},#{nickname},#{avatar},#{sex},#{birthday},#{description},#{invitetype},#{type},#{orgId}
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+
+		<if test="id != null ">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+	
+
+		<if test="account != null ">
+			AND account = #{account,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="nickname != null ">
+			AND nickname = #{nickname,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="avatar != null ">
+			AND avatar = #{avatar,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="sex != null ">
+			AND sex = #{sex,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="birthday != null ">
+			AND birthday = #{birthday,jdbcType=TIMESTAMP}
+		</if>
+	
+
+		<if test="description != null ">
+			AND description = #{description,jdbcType=VARCHAR}
+		</if>
+	
+
+		<if test="invitetype != null ">
+			AND inviteType = #{invitetype,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="type != null ">
+			AND type = #{type,jdbcType=INTEGER}
+		</if>
+	
+
+		<if test="orgId != null ">
+			AND org_id = #{orgId,jdbcType=BIGINT}
+		</if>
+		
+		<!-- 页面搜索条件 -->
+		<!-- 模糊查询条件 -->
+		<if test="filter_account != null">
+			AND t_teacher.account like CONCAT('%','${filter_account}','%')
+		</if>
+		
+		<if test="filter_nickname != null">
+			AND t_teacher.nickname like CONCAT('%','${filter_nickname}','%')
+		</if>
+		
+		<if test="filter_type != null ">
+			AND t_teacher.teacher_type = ${filter_type}
+		</if>
+		
+		<if test="filter_inviteType == 2">
+			AND org_invite_view.inviteType = 2
+		</if> 
+		
+			<if test="filter_inviteType ==1">
+			AND (org_invite_view.inviteType is null or org_invite_view.inviteType =1)
+		</if> 
+	
+		<if test="filter_inviteType == 3">
+			AND org_invite_view.inviteType = 3
+		</if>
+	</sql>
+	
+	<!-- 设置语句 -->
+	<sql id="set_column">
+		<if test="id != null ">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="account != null ">
+			account = #{account,jdbcType=VARCHAR},
+		</if>
+		<if test="nickname != null ">
+			nickname = #{nickname,jdbcType=VARCHAR},
+		</if>
+		<if test="avatar != null ">
+			avatar = #{avatar,jdbcType=VARCHAR},
+		</if>
+		<if test="sex != null ">
+			sex = #{sex,jdbcType=VARCHAR},
+		</if>
+		<if test="birthday != null ">
+			birthday = #{birthday,jdbcType=TIMESTAMP},
+		</if>
+		<if test="description != null ">
+			description = #{description,jdbcType=VARCHAR},
+		</if>
+		<if test="invitetype != null ">
+			inviteType = #{invitetype,jdbcType=INTEGER},
+		</if>
+		<if test="type != null ">
+			type = #{type,jdbcType=INTEGER},
+		</if>
+		<if test="orgId != null ">
+			org_id = #{orgId,jdbcType=BIGINT},
+		</if>
+	</sql>
+
+	<!-- 根据ID查询 -->
+	<select id="find" resultMap="TeacherTalentViewResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	ORG_TEACHER_TALENT_VIEW
+		WHERE	ID=#{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAll" resultMap="TeacherTalentViewResultMap">
+		SELECT	<include refid="base_column" />
+		FROM	ORG_TEACHER_TALENT_VIEW
+	</select>
+	
+	<!-- 统计记录数 -->
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM ORG_TEACHER_TALENT_VIEW
+		<where> 
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.framework.loippi.entity.TeacherTalentView">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">  
+	          SELECT LAST_INSERT_ID() AS ID    
+	    </selectKey>  
+		INSERT ORG_TEACHER_TALENT_VIEW 
+				(<include refid="base_column" /> )
+		VALUES	(<include refid="base_value_column" />)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.framework.loippi.entity.TeacherTalentView">
+		UPDATE	ORG_TEACHER_TALENT_VIEW
+		<set>
+			<include refid="set_column" />
+		</set>
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 删除单条记录 -->
+	<delete id="delete">
+		DELETE	FROM ORG_TEACHER_TALENT_VIEW
+		WHERE	ID = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 删除多条记录-->
+	<delete id="deleteAll">
+		DELETE	FROM ORG_TEACHER_TALENT_VIEW
+		WHERE	ID	IN
+    	<foreach item="TeacherTalentViewId" index="index" collection="ids" open="(" separator="," close=")">
+	  		#{TeacherTalentViewId} 
+		</foreach>
+	</delete>
+	
+	<!-- 根据参数查询列表-->
+	<select id="findByParams" resultMap="TeacherTalentViewResultMap">
+		SELECT	<include refid="base_column" />
+		FROM 	ORG_TEACHER_TALENT_VIEW
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+	</select>
+	
+	<!-- 分页查询-->
+	<select id="findByPage" resultMap="TeacherTalentViewResultMap">
+		SELECT
+			`t_teacher`.`id`,
+			`t_teacher`.`account`,
+			`t_teacher`.`nickname`,
+			`t_teacher`.`avatar`,
+			`t_teacher`.`sex`,
+			`t_teacher`.`birthday` ,
+			`t_teacher`.`description`,
+			`org_invite_view`.`inviteType`,
+			`t_teacher`.`teacher_type` AS `type`,
+			`org_invite_view`.`org_id`
+		FROM
+			(
+				`t_teacher`
+				LEFT JOIN `org_invite_view` ON (
+					(
+						(
+							`t_teacher`.`id` = `org_invite_view`.`teacher_id`
+						)
+						AND (
+							`org_invite_view`.`org_id` = #{org_id,jdbcType=BIGINT}
+						)
+					)
+				)
+			)
+			
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+		
+	</select>
+
+
+       <!-- 分页查询-->
+       <select id="findListByPage" resultMap="TeacherTalentViewResultMap">
+		SELECT
+		<include refid="base_column" />
+		FROM ORG_TEACHER_TALENT_VIEW
+		<where> 1=1
+			<include refid="where_column" />
+		</where>
+					
+	     <if test="order != null and order != ''">
+		order by  ${order}
+	     </if>
+	     
+		<if test="pageNumber != null  and pageSize !=null ">
+			limit  #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	     </if>
+			
+		
+	</select>
+	
+</mapper> 
